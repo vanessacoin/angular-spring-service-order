@@ -1,0 +1,50 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab class="vehicle-tab" label="Cadastro do Veículo">
+    <mat-form-field>
+      <mat-label>Selecione o cliente cadastrado</mat-label>
+      <select matNativeControl required [formControl]="selectCustomerFormControl">
+        <option label="--Cliente--"></option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+      @if (selectCustomerFormControl.hasError('required')) {
+        <mat-error>Preenchimento obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="vehicle-form-field">
+      <mat-label>Marca</mat-label>
+      <input matInput placeholder="" >
+    </mat-form-field>
+
+    <mat-form-field class="vehicle-form-field">
+      <mat-label>Modelo</mat-label>
+      <input matInput placeholder="" >
+    </mat-form-field>
+
+    <mat-form-field class="vehicle-form-field">
+      <mat-label>Placa</mat-label>
+      <input matInput placeholder="" >
+    </mat-form-field>
+
+    <mat-form-field class="vehicle-form-field">
+      <mat-label>Ano</mat-label>
+      <input matInput placeholder="" >
+    </mat-form-field>
+
+    <mat-form-field class="vehicle-form-field">
+      <mat-label>Cor</mat-label>
+      <input matInput placeholder="" >
+    </mat-form-field>
+
+    <div class="vehicle-button-action">
+      <button mat-flat-button color="primary">GRAVAR</button>
+      <button mat-flat-button color="warn">LIMPAR</button>
+    </div>
+
+  </mat-tab>
+
+  <mat-tab label="Veículos Cadastrados">tabela listagem editar excluir
+  </mat-tab>
+</mat-tab-group>

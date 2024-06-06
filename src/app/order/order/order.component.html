@@ -1,0 +1,17 @@
+<div>
+  <h2>Gerar Ordem de Serviço</h2>
+  <div>
+    <app-sequential></app-sequential>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Data</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="orderDate">
+    <mat-hint>dia/mês/ano</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+</div>
+
+
