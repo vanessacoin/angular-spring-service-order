@@ -1,3 +1,8 @@
+
+Projeto pessoal com a finalidade de solucionar uma demanda recorrente de gerar ordens de serviço em uma oficina automotiva. Funcionamento e recursos baseados nas necessidades do usuário.
+
+![Badge EM ANDAMENTO](https://img.shields.io/badge/EM%20ANDAMENTO-STATUS?style=for-the-badge&label=STATUS&color=%23eb7bc0)
+
 # CrudAngular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
