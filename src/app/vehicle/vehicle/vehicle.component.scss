@@ -1,14 +1,19 @@
-.vehicle-tab {
-  min-width: 150px;
-  max-width: 500px;
+table {
+  overflow: auto;
+  max-height: 600px;
+  border-radius: 16px;
+  width: 100%;
 }
 
-.vehicle-form-field {
-  width: 45%;
-  margin-right: 8px;
+.vehicle-container {
+  height: 400px;
+  overflow: auto;
 }
 
-.vehicle-button-action button,
-.vehicle-button-action a {
-  margin-right: 8px;
+.action-column {
+  flex: 0 0 125px;
+}
+
+.action-column-header {
+  margin: 0 auto;
 }
