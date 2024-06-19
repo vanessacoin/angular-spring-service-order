@@ -4,7 +4,7 @@
     <app-sequential></app-sequential>
   </div>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field>
     <mat-label>Data</mat-label>
     <input matInput [matDatepicker]="picker" [(ngModel)]="orderDate">
     <mat-hint>dia/mês/ano</mat-hint>
@@ -12,6 +12,19 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Cliente</mat-label>
+    <mat-select [(ngModel)]="selectedCustomer" name="customer">
+      <mat-option *ngFor="let customer of customers" [value]="customer">{{ customer.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Veículo</mat-label>
+    <mat-select [(ngModel)]="selectedVehicle" name="vehicle">
+      <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle">{{ vehicle.brand }} - {{ vehicle.model }} - {{
+        vehicle.color }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </div>
-
-

@@ -5,28 +5,54 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { SequentialComponent } from '../../sequential/sequential.component';
-
+import { Customer } from './../../customer/model/customer';
+import { CustomerService } from './../../customer/services/customer.service';
+import { Vehicle } from './../../vehicle/model/vehicle';
+import { VehicleService } from './../../vehicle/services/vehicle.service';
 
 @Component({
   selector: 'app-order',
   standalone: true,
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
-  providers: [provideNativeDateAdapter()],
-  imports: [MatFormField, SequentialComponent, MatLabel, CommonModule, MatTabsModule, MatInputModule,
-    MatFormFieldModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, JsonPipe,
+  providers: [provideNativeDateAdapter(), CustomerService, VehicleService],
+  imports: [MatFormField,
+    SequentialComponent,
+    MatLabel,
+    CommonModule,
+    MatTabsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    JsonPipe,
+    MatSelectModule
   ]
 })
 export class OrderComponent implements OnInit {
   orderDate = new Date;
+  customers: Customer[] = [];
+  vehicles: Vehicle[] = [];
+  selectedCustomer: Customer | undefined;
+  selectedVehicle: Vehicle | undefined;
 
-  constructor() { }
+  constructor(private customerService: CustomerService, private vehicleService: VehicleService) {}
 
   ngOnInit(): void {
     this.orderDate = new Date();
+
+    this.customerService.list().subscribe((data: Customer[]) => {
+      this.customers = data;
+    });
+
+    this.vehicleService.list().subscribe((data: Vehicle[]) => {
+      this.vehicles = data;
+    });
   }
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
