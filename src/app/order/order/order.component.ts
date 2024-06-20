@@ -38,6 +38,7 @@ export class OrderComponent implements OnInit {
   orderDate = new Date;
   customers: Customer[] = [];
   vehicles: Vehicle[] = [];
+  filteredVehicles: Vehicle[] = [];
   selectedCustomer: Customer | undefined;
   selectedVehicle: Vehicle | undefined;
 
@@ -52,10 +53,20 @@ export class OrderComponent implements OnInit {
 
     this.vehicleService.list().subscribe((data: Vehicle[]) => {
       this.vehicles = data;
+      this.filteredVehicles = [];
     });
   }
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.orderDate = event.value ?? new Date();
+  }
+
+  onCustomerChange(): void {
+    if (this.selectedCustomer) {
+      this.filteredVehicles = this.vehicles.filter(vehicle => vehicle.id_customer === this.selectedCustomer!._id);
+    } else {
+      this.filteredVehicles = [];
+    }
+    this.selectedVehicle = undefined; // Reset selected vehicle when customer changes
   }
 }
