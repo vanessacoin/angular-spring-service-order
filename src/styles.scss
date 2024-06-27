@@ -22,3 +22,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: mat.get-color-from-palette($custom-app-primary);
   color: #fff;
 }
+
+.vehicle mat-header-row {
+  background-color: mat.get-color-from-palette($custom-app-primary);
+  color: #fff;
+}

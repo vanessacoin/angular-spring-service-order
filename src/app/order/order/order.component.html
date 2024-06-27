@@ -1,16 +1,16 @@
 <div>
   <h2>Gerar Ordem de Serviço</h2>
-  <div>
+  <div id="sequential_order_number">
     <app-sequential></app-sequential>
   </div>
 
-  <div class="form-container">
+  <div class="form-container" id="initial_data">
     <mat-form-field>
       <mat-label>Data</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="orderDate">
+      <input matInput [matDatepicker]="pickerDate" [(ngModel)]="orderDate">
       <mat-hint>dia/mês/ano</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerDate"></mat-datepicker-toggle>
+      <mat-datepicker #pickerDate></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -23,9 +23,64 @@
     <mat-form-field appearance="fill">
       <mat-label>Veículo</mat-label>
       <mat-select [(ngModel)]="selectedVehicle" name="vehicle">
-        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle">{{ vehicle.brand }} - {{ vehicle.model }} - {{
+        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle">{{ vehicle.brand }} - {{ vehicle.model }}
+          - {{
           vehicle.color }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
+
+  <div id="header_information">
+    <h2>Dados Cadastrados (preencha os campos acima)</h2>
+  </div>
+
+  <div class="form-container" id="customer_registered_data">
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput [value]="selectedCustomer?.name" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CPF</mat-label>
+      <input matInput [value]="selectedCustomer?.cpf" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Telefone</mat-label>
+      <input matInput [value]="selectedCustomer?.phone" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput [value]="selectedCustomer?.email" readonly>
+    </mat-form-field>
+  </div>
+
+  <div class="form-container" id="vehicle_registered_data">
+    <mat-form-field appearance="fill">
+      <mat-label>Marca</mat-label>
+      <input matInput [value]="selectedVehicle?.brand" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Modelo</mat-label>
+      <input matInput [value]="selectedVehicle?.model" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Placa</mat-label>
+      <input matInput [value]="selectedVehicle?.plate" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ano</mat-label>
+      <input matInput [value]="selectedVehicle?.year" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cor</mat-label>
+      <input matInput [value]="selectedVehicle?.color" readonly>
+    </mat-form-field>
+  </div>
+
 </div>
