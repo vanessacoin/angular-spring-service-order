@@ -2,8 +2,18 @@
   display: flex;
   gap: 16px;
   margin-top: 20px;
+  margin-left: 20px;
 }
 
-#header_information {
+.informative-title-order{
   margin-top: 35px;
+  margin-left: 20px;
+}
+
+#sequential-order-number{
+  margin-left: 20px;
+}
+
+#services-input {
+  width: 90%;
 }
