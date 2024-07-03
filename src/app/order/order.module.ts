@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
 
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderComponent } from './order/order.component';
@@ -23,4 +22,5 @@ import { OrderComponent } from './order/order.component';
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
   ]
 })
+
 export class OrderModule { }
