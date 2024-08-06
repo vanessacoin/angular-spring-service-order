@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { SequentialService } from '../sequential/sequential.service';
 
 @Component({
