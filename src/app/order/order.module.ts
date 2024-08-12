@@ -5,6 +5,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { RequestedServiceModule } from '../requested-service/requested-service.module';
 import { RequestedServiceComponent } from '../requested-service/requested-service/requested-service.component';
+import { UsedItemsModule } from '../used-items/used-items.module';
+import { UsedItemsComponent } from '../used-items/used-items/used-items.component';
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderComponent } from './order/order.component';
 
@@ -17,7 +19,9 @@ import { OrderComponent } from './order/order.component';
     RequestedServiceComponent,
     RequestedServiceModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UsedItemsComponent,
+    UsedItemsModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }

@@ -21,6 +21,7 @@ import { Customer } from './../../customer/model/customer';
 import { CustomerService } from './../../customer/services/customer.service';
 import { Vehicle } from './../../vehicle/model/vehicle';
 import { VehicleService } from './../../vehicle/services/vehicle.service';
+import { UsedItem, UsedItemsComponent } from '../../used-items/used-items/used-items.component';
 
 
 @Component({
@@ -46,7 +47,8 @@ import { VehicleService } from './../../vehicle/services/vehicle.service';
     MatIconModule,
     MatInputModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    UsedItemsComponent
   ]
 })
 export class OrderComponent implements OnInit {
@@ -59,6 +61,10 @@ export class OrderComponent implements OnInit {
 
   requestedService: RequestedService[] = [];
   idRequestedServiceCounter: number = 1;
+
+  usedItems: UsedItem[] = [];
+  idItemCounter: number = 1;
+
 
   constructor(private customerService: CustomerService, private vehicleService: VehicleService) {}
 
