@@ -1,0 +1,4 @@
+[
+  { "_id": "1", "createDate": "10/08/2024", "orderStatus": "CREATED", "labor": 1200, "paymentForm": "CREDITO", "id_vehicle": "1", "brand": "Toyota", "model": "Supra mk4 3.0", "plate": "JAR0V19", "year": "1994", "color": "White", "id_customer": "1", "name": "Vanessa Coin", "cpf": "00000000019", "phone": "54991001234", "email": "vanessarcoin@gmail.com"},
+  { "_id": "2", "createDate": "13/08/2024", "orderStatus": "CANCELED", "labor": 90, "paymentForm": "DEBITO", "id_vehicle": "2", "brand": "Nissan", "model": "Skyline R33 GT-R", "plate": "JAR0V18", "year": "1995", "color": "Black", "id_customer": "2", "name": "Teste", "cpf": "00000000018", "phone": "54991001235", "email": "teste@gmail.com"}
+]

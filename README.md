@@ -30,3 +30,34 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Database Configuration
+
+This project uses MySQL as the database. Follow the instructions below to configure the database locally:
+
+### 1. Install MySQL
+
+Ensure that MySQL is installed and running. You can download the MySQL Community Server [here](https://dev.mysql.com/downloads/mysql/).
+
+### 2. Create Database and User
+
+Run the following SQL commands to create the database and user:
+
+```sql
+CREATE DATABASE my_database;
+CREATE USER 'my_user'@'localhost' IDENTIFIED BY 'my_password';
+GRANT ALL PRIVILEGES ON my_database.* TO 'my_user'@'localhost';
+FLUSH PRIVILEGES;
+
+
+Before running the application, you need to configure the database credentials.
+
+1. **Create a `.env` File**
+
+   Create a file named `.env` in the root of the project with the following content:
+
+   ```env
+   DB_NAME=my_database
+   DB_USER=my_user
+   DB_PASSWORD=my_password

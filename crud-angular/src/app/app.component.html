@@ -1,0 +1,46 @@
+<mat-toolbar class="toolbar" color="primary">
+        <button
+            (click)="drawer.toggle()"
+            mat-icon-button
+            class="burger">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <p>Ordem de Serviço</p>
+</mat-toolbar>
+
+<mat-drawer-container class="container" [hasBackdrop]="mdcBackdrop">
+    <mat-drawer #drawer class="drawer"  [mode]="drawerMode">
+        <div class="sidenav-content">
+            <div class="drawerButton" >
+              <button
+              (click)="drawer.toggle()"
+              mat-flat-button
+              routerLinkActive="mat-accent"
+              color="accent"
+              routerLink="customer">Cadastro de Cliente</button>
+            </div>
+
+            <div class="drawerButton">
+              <button
+              (click)="drawer.toggle()"
+              mat-flat-button
+              routerLinkActive="mat-accent"
+              color="accent"
+              routerLink="vehicle">Cadastro de Veículo</button>
+            </div>
+
+            <div class="drawerButton">
+              <button
+              (click)="drawer.toggle()"
+              mat-flat-button
+              routerLinkActive="mat-accent"
+              color="accent"
+              routerLink="order">Geração de Orçamento e OS</button>
+            </div>
+          </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>

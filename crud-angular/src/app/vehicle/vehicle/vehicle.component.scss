@@ -1,0 +1,19 @@
+table {
+  overflow: auto;
+  max-height: 600px;
+  border-radius: 16px;
+  width: 100%;
+}
+
+.vehicle-container {
+  height: 400px;
+  overflow: auto;
+}
+
+.action-column {
+  flex: 0 0 125px;
+}
+
+.action-column-header {
+  margin: 0 auto;
+}
