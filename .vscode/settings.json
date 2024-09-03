@@ -1,3 +1,7 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.sourcePaths": [
+        "crud-angular/src/app/order"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -1,4 +1,5 @@
 import { CommonModule, JsonPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,18 +12,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { HttpClient } from '@angular/common/http';
 
 import {
   RequestedService,
   RequestedServiceComponent,
 } from '../../requested-service/requested-service/requested-service.component';
 import { SequentialComponent } from '../../sequential/sequential.component';
+import { UsedItem, UsedItemsComponent } from '../../used-items/used-items/used-items.component';
+import { Order } from '../model/order.model';
 import { Customer } from './../../customer/model/customer';
 import { CustomerService } from './../../customer/services/customer.service';
 import { Vehicle } from './../../vehicle/model/vehicle';
 import { VehicleService } from './../../vehicle/services/vehicle.service';
-import { UsedItem, UsedItemsComponent } from '../../used-items/used-items/used-items.component';
+
+import { OrderService } from '../services/order.service'; // Importa o serviço
 
 
 @Component({
@@ -52,6 +55,7 @@ import { UsedItem, UsedItemsComponent } from '../../used-items/used-items/used-i
     UsedItemsComponent
   ]
 })
+
 export class OrderComponent implements OnInit {
   orderDate = new Date();
   customers: Customer[] = [];
@@ -66,8 +70,27 @@ export class OrderComponent implements OnInit {
   usedItems: UsedItem[] = [];
   idItemCounter: number = 1;
 
+  order: Order = {
+    id: 0,
+    orderDate: new Date(),
+    customerId: '',
+    customerName: '',
+    customerCpf: '',
+    customerPhone: '',
+    customerEmail: '',
+    vehicleId: '',
+    vehicleBrand: '',
+    vehicleModel: '',
+    vehiclePlate: '',
+    vehicleKm: '',
+    vehicleYear: '',
+    vehicleColor: '',
+    vehicleCustomerId: '',
+    requestedServices: [],
+    usedItems: []
+  };
 
-  constructor(private customerService: CustomerService, private vehicleService: VehicleService, private http: HttpClient) {}
+  constructor(private customerService: CustomerService, private vehicleService: VehicleService, private http: HttpClient, private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.orderDate = new Date();
@@ -82,16 +105,27 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  generateOrderPdf() {
-    const orderId = this.orderId; // O ID da ordem de serviço que deseja gerar o PDF - sequencial
+  submitOrder() {
+    this.orderService.saveOrder(this.order).subscribe(response => {
+      console.log('Order saved', response);
+      const orderId = response.id;
+      this.generateOrderPdf(orderId);
+    }, error => {
+      console.error('Error saving order', error);
+    });
+  }
 
-    this.http.get(`api/orders/${orderId}/pdf`, { responseType: 'blob' }).subscribe((blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'order.pdf';
-      a.click();
-      window.URL.revokeObjectURL(url);
+  generateOrderPdf(orderId: number): void {
+    const url = `/api/orders/${orderId}/pdf`;
+    this.http.get(url, { responseType: 'blob' }).subscribe((pdf) => {
+      const blob = new Blob([pdf], { type: 'application/pdf' });
+      const downloadURL = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = `order_${orderId}.pdf`;
+      link.click();
+
+    window.URL.revokeObjectURL(url);
     });
   }
 
@@ -105,7 +139,7 @@ export class OrderComponent implements OnInit {
     } else {
       this.filteredVehicles = [];
     }
-    this.selectedVehicle = undefined; // Reset selected vehicle when customer changes
+    this.selectedVehicle = undefined;
   }
 
 }
