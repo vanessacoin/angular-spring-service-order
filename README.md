@@ -1,5 +1,8 @@
 
-Projeto pessoal com a finalidade de solucionar uma demanda recorrente de gerar ordens de serviço em uma oficina automotiva. Funcionamento e recursos baseados nas necessidades do usuário.
+Projeto destinado a ser implementado em um ambiente real, focado em armazenar dados de clientes e veículos, facilitando a geração de orçamentos e ordens de serviço, eliminando o retrabalho de preenchimento manual, possibilitando também o controle dos serviços e gestão de pagamentos efetuados pelos clientes.
+
+Project intended to be implemented in a real environment, focused on storing customer and vehicle data, facilitating the generation of quotes and service orders, eliminating manual filling rework, also enabling the control of services and management of payments made by customers.
+
 
 ![Badge EM ANDAMENTO](https://img.shields.io/badge/EM%20ANDAMENTO-STATUS?style=for-the-badge&label=STATUS&color=%23eb7bc0)
 
@@ -55,9 +58,9 @@ Before running the application, you need to configure the database credentials.
 
 1. **Create a `.env` File**
 
-   Create a file named `.env` in the root of the project with the following content:
+   Create a file named `.env` in the root of the project (crud-spring/.env) with the following content:
 
    ```env
-   DB_NAME=my_database
-   DB_USER=my_user
+   DB_URL=jdbc:mysql://localhost:3306/my_database
+   DB_USERNAME=my_user
    DB_PASSWORD=my_password
