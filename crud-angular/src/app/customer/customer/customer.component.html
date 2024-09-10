@@ -1,8 +1,9 @@
 <mat-card class="customer">
   <mat-card-content>
-    <section class="customer-container mat-elevation-z8" tabindex="0">
+    <section class="customer-container mat-elevation-z8">
       <div *ngIf="customers$ | async as customers; else loading">
         <table mat-table [dataSource]="customers">
+          <th>Clientes</th>
 
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>

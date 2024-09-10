@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { Customer } from './../model/customer';
 
@@ -8,11 +9,11 @@ import { Customer } from './../model/customer';
 })
 export class CustomerService {
 
-  private readonly API = '/assets/customers.json';
+  private readonly API = 'http://localhost:8080/api/customers';
 
   constructor(private httpClient: HttpClient) { }
 
-  list() {
+  list(): Observable<Customer[]> {
     return this.httpClient.get<Customer[]>(this.API);
   }
 }

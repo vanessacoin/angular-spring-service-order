@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
 
 import { Customer } from '../model/customer';
 import { CustomerService } from '../services/customer.service';
@@ -45,7 +44,9 @@ export class CustomerComponent implements OnInit {
     this.customers$ = this.customerService.list();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.customers$ = this.customerService.list();
+  }
 
   onAdd() {
     this.add.emit(true);

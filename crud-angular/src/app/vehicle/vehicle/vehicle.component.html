@@ -1,77 +1,69 @@
 <mat-card class="vehicle">
   <mat-card-content>
     <section class="vehicle-container mat-elevation-z8">
-      <table mat-table [dataSource]="vehicles">
-        <th>Veículos</th>
+      <div *ngIf="vehicles$ | async as vehicles; else loading">
+        <table mat-table [dataSource]="vehicles">
+          <th>Veículos</th>
 
-        <ng-container matColumnDef="brand">
-          <mat-header-cell *matHeaderCellDef>Marca</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.brand }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="brand">
+            <mat-header-cell *matHeaderCellDef>Marca</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.brand }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="model">
-          <mat-header-cell *matHeaderCellDef>Modelo</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.model }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="model">
+            <mat-header-cell *matHeaderCellDef>Modelo</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.model }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="plate">
-          <mat-header-cell *matHeaderCellDef>Placa</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.plate }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="plate">
+            <mat-header-cell *matHeaderCellDef>Placa</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.plate }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="year">
-          <mat-header-cell *matHeaderCellDef>Ano</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.year }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="year">
+            <mat-header-cell *matHeaderCellDef>Ano</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.year }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="color">
-          <mat-header-cell *matHeaderCellDef>Cor</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.color }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="color">
+            <mat-header-cell *matHeaderCellDef>Cor</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.color }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="id_customer">
-          <mat-header-cell *matHeaderCellDef>ID Cliente</mat-header-cell>
-          <mat-cell *matCellDef="let vehicle">{{ vehicle.id_customer }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="id_customer">
+            <mat-header-cell *matHeaderCellDef>ID Cliente</mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">{{ vehicle.id_customer }}</mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef class="action-column">
-            <button
-              mat-mini-fab
-              color="accent"
-              aria-label="Adicionar Veículo"
-              (click)="onAdd()"
-              class="action-column-header"
-            >
-              <mat-icon>add</mat-icon>
-            </button>
-          </mat-header-cell>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef class="action-column">
+              <button mat-mini-fab color="accent" aria-label="Adicionar Veículo" (click)="onAdd()"
+                class="action-column-header">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-header-cell>
 
-          <mat-cell *matCellDef="let vehicle" class="action-column">
-            <button
-              mat-icon-button
-              color="primary"
-              aria-label="Editar Cliente"
-              (click)="onEdit(vehicle)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
+            <mat-cell *matCellDef="let vehicle" class="action-column">
+              <button mat-icon-button color="primary" aria-label="Editar Veículo" (click)="onEdit(vehicle)">
+                <mat-icon>edit</mat-icon>
+              </button>
 
-            <button
-              mat-icon-button
-              color="warn"
-              aria-label="Remover Cliente"
-              (click)="onDelete(vehicle)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-cell>
-        </ng-container>
+              <button mat-icon-button color="warn" aria-label="Remover Veículo" (click)="onDelete(vehicle)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-      </table>
+        </table>
+      </div>
+
+      <ng-template #loading>
+        <mat-spinner></mat-spinner>
+      </ng-template>
+
     </section>
   </mat-card-content>
 </mat-card>

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { VehicleRoutingModule } from './vehicle-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

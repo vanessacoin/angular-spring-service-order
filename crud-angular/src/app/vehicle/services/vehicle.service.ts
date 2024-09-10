@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { Vehicle } from './../model/vehicle';
 
@@ -8,11 +9,11 @@ import { Vehicle } from './../model/vehicle';
 })
 export class VehicleService {
 
-  private readonly API = '/assets/vehicles.json';
+  private readonly API = 'http://localhost:8080/api/vehicles';
 
   constructor(private httpClient: HttpClient) { }
 
-  list() {
+  list(): Observable<Vehicle[]>{
     return this.httpClient.get<Vehicle[]>(this.API);
   }
 }

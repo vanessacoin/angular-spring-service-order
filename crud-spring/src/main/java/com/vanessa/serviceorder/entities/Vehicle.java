@@ -1,6 +1,7 @@
 package com.vanessa.serviceorder.entities;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,6 @@ public class Vehicle implements Serializable {
     private String brand;
     private String model;
     private String plate;
-    private Double km;
     private int year;
     private String color;
     private Long idCustomer;
@@ -51,14 +51,6 @@ public class Vehicle implements Serializable {
 
     public void setPlate(String plate) {
         this.plate = plate;
-    }
-
-    public Double getKm() {
-        return km;
-    }
-
-    public void setKm(Double km) {
-        this.km = km;
     }
 
     public int getYear() {
