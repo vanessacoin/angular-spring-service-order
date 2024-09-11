@@ -9,7 +9,7 @@ import { Customer } from './../model/customer';
 })
 export class CustomerService {
 
-  private readonly API = 'http://localhost:8080/api/customers';
+  private readonly API = 'api/customers';
 
   constructor(private httpClient: HttpClient) { }
 

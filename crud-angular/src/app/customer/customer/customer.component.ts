@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -38,9 +39,12 @@ export class CustomerComponent implements OnInit {
   @Output() remove = new EventEmitter(false);
 
   customers$: Observable<Customer[]>;
-  displayedColumns = ['name', 'cpf', 'phone', 'email', 'actions']
+  displayedColumns: string[] = ['name', 'cpf', 'phone', 'email', 'actions'];
 
-  constructor(private customerService: CustomerService) {
+  constructor(
+    private customerService: CustomerService,
+    private router: Router
+  ) {
     this.customers$ = this.customerService.list();
   }
 
@@ -49,7 +53,7 @@ export class CustomerComponent implements OnInit {
   }
 
   onAdd() {
-    this.add.emit(true);
+    this.router.navigate(['customers/new']);
   }
 
   onEdit(customer: Customer) {

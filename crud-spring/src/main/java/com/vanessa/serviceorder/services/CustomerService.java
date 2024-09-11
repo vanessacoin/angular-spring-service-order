@@ -11,14 +11,4 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     
-    private CustomerRepository customerRepository;
-  
-    public List<Customer> getAllCustomers() {
-      return customerRepository.findAll();
-    }
-
-    public Customer getCustomerById(Long id) {
-      Optional<Customer> obj = customerRepository.findById(id);
-      return obj.get();
-    }
 }

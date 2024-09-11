@@ -9,7 +9,7 @@ import { Vehicle } from './../model/vehicle';
 })
 export class VehicleService {
 
-  private readonly API = 'http://localhost:8080/api/vehicles';
+  private readonly API = 'api/vehicles';
 
   constructor(private httpClient: HttpClient) { }
 
