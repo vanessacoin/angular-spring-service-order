@@ -2,42 +2,40 @@
   <mat-card-content>
     <section class="service-order-container mat-elevation-z8">
       <table mat-table [dataSource]="dataSourceRequestedServices">
-        <th>Serviços</th>
 
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef>Número</mat-header-cell>
-          <mat-cell *matCellDef="let service">{{ service.id }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Número</th>
+            <td mat-cell *matCellDef="let service">{{ service.id }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef>Descrição</mat-header-cell>
-          <mat-cell *matCellDef="let service">{{ service.description }}</mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let service">{{ service.description }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef class="action-column">
-            <button mat-mini-fab color="accent" aria-label="Adicionar Serviço" (click)="onAddRequestedService()"
-              class="action-column-header">
-              <mat-icon>add</mat-icon>
-            </button>
-          </mat-header-cell>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="action-column">
+              <button mat-mini-fab color="accent" aria-label="Adicionar Serviço" (click)="onAddRequestedService()"
+                class="action-column-header">
+                <mat-icon>add</mat-icon>
+              </button>
+            </th>
 
-          <mat-cell *matCellDef="let service" class="action-column">
-            <button mat-icon-button color="primary" aria-label="Editar Serviço"
-              (click)="onEditRequestedService(service)">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <td mat-cell *matCellDef="let service" class="action-column">
+              <button mat-icon-button color="primary" aria-label="Editar Serviço"
+                (click)="onEditRequestedService(service)">
+                <mat-icon>edit</mat-icon>
+              </button>
 
-            <button mat-icon-button color="warn" aria-label="Deletar Serviço"
-              (click)="onDeleteRequestedService(service.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-cell>
-        </ng-container>
+              <button mat-icon-button color="warn" aria-label="Deletar Serviço"
+                (click)="onDeleteRequestedService(service.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <mat-header-row mat-header-row
-          *matHeaderRowDef="displayedColumnsRequestedServices; sticky: true"></mat-header-row>
-        <mat-row mat-row *matRowDef="let row; columns: displayedColumnsRequestedServices;"></mat-row>
+          <tr mat-header-row mat-header-row *matHeaderRowDef="displayedColumnsRequestedServices"></tr>
+          <tr mat-row mat-row *matRowDef="let row; columns: displayedColumnsRequestedServices;"></tr>
 
       </table>
     </section>
