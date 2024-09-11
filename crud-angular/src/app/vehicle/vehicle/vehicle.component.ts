@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 
 import { Vehicle } from '../model/vehicle';
 import { VehicleService } from '../services/vehicle.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle',
@@ -38,9 +39,11 @@ export class VehicleComponent implements OnInit {
   @Output() remove = new EventEmitter(false);
 
   vehicles$: Observable<Vehicle[]>;
-  displayedColumns = ['brand', 'model', 'plate', 'year', 'color', 'id_customer', 'actions']
+  displayedColumns: string[] = ['brand', 'model', 'plate', 'year', 'color', 'id_customer', 'actions']
 
-  constructor(private vehicleService: VehicleService) {
+  constructor(
+    private vehicleService: VehicleService,
+    private router: Router) {
     this.vehicles$ = this.vehicleService.list();
    }
 
@@ -49,7 +52,7 @@ export class VehicleComponent implements OnInit {
   }
 
   onAdd() {
-    this.add.emit(true);
+    this.router.navigate(['vehicle/new']);
   }
 
   onEdit(vehicle: Vehicle) {

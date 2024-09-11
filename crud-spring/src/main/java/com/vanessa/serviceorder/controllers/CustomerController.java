@@ -2,7 +2,6 @@ package com.vanessa.serviceorder.controllers;
 
 import com.vanessa.serviceorder.entities.Customer;
 import com.vanessa.serviceorder.repositories.CustomerRepository;
-import com.vanessa.serviceorder.services.CustomerService;
 
 import lombok.AllArgsConstructor;
 
