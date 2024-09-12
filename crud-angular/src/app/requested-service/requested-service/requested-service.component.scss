@@ -2,3 +2,22 @@
   height: 400px;
   overflow: auto;
 }
+
+.mat-column-id, .mat-colummn-actions {
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+
+.mat-column-description {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80% !important;
+  width: 80% !important;
+  overflow-wrap: break-word;
+
+  word-break: break-word;
+
+  hyphens: auto;
+  padding: 15px 15px;
+}
