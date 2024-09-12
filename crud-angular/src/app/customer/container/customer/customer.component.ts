@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -11,8 +11,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
 
-import { Customer } from '../model/customer';
-import { CustomerService } from '../services/customer.service';
+import { Customer } from '../../model/customer';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-customer',
@@ -26,7 +26,7 @@ import { CustomerService } from '../services/customer.service';
     MatCardModule,
     MatProgressSpinnerModule,
     NgIf,
-    AsyncPipe],
+    AsyncPipe, RouterLink],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.scss',
   providers: [CustomerService]
@@ -38,12 +38,14 @@ export class CustomerComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
+
   customers$: Observable<Customer[]>;
-  displayedColumns: string[] = ['name', 'cpf', 'phone', 'email', 'actions'];
+  readonly displayedColumns = ['name', 'cpf', 'phone', 'email', 'actions'];
 
   constructor(
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.customers$ = this.customerService.list();
   }
@@ -53,7 +55,7 @@ export class CustomerComponent implements OnInit {
   }
 
   onAdd() {
-    this.router.navigate(['customers/new']);
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   onEdit(customer: Customer) {
