@@ -2,3 +2,26 @@
   height: 400px;
   overflow: auto;
 }
+
+table {
+  width: 100%;
+}
+
+.mat-column-id, .mat-column-total_quantity, .mat-column-unit_price, .mat-column-amount, .mat-colummn-actions {
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+
+.mat-column-description {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 50% !important;
+  width: 50% !important;
+  overflow-wrap: break-word;
+
+  word-break: break-word;
+
+  hyphens: auto;
+  padding: 15px 15px;
+}
