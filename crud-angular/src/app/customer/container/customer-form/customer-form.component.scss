@@ -1,0 +1,26 @@
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-card-content :first-child {
+  margin-top: 5px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.min-width {
+  width: 100%;
+  min-width: 150px;
+}
+
+.btn-space {
+  margin-left: 15px;
+}
+
+.actions-center {
+  justify-content: center;
+}

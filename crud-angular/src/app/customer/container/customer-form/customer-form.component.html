@@ -1,1 +1,30 @@
-<p>customer-form works!</p>
+<mat-card>
+
+  <mat-toolbar>Cadastro de Cliente</mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nome" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="CPF" formControlName="cpf">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Phone" formControlName="phone">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="actions-center">
+    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button color="warn" class="btn-space" (click)="onCancel()">Cancelar</button>
+  </mat-card-actions>
+
+</mat-card>
