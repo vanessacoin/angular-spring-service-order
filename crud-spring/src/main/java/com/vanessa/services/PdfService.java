@@ -1,10 +1,10 @@
-package com.vanessa.serviceorder.services;
+package com.vanessa.services;
 
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-import com.vanessa.serviceorder.entities.ServiceOrder;
+import com.vanessa.entities.ServiceOrder;
 
 import org.springframework.stereotype.Service;
 

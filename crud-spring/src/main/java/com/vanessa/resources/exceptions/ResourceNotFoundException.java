@@ -1,4 +1,4 @@
-package com.vanessa.serviceorder.resources.exceptions;
+package com.vanessa.resources.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

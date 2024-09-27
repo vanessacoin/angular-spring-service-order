@@ -1,4 +1,4 @@
-package com.vanessa.serviceorder.entities;
+package com.vanessa.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;

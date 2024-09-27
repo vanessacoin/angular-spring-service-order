@@ -5,6 +5,7 @@ import { MatCardActions, MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -24,7 +25,8 @@ export class CustomerFormComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+    private service: CustomerService) {
     this.form = this.formBuilder.group({
       name: [null],
       cpf: [null],
@@ -37,7 +39,7 @@ export class CustomerFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.service.save(this.form.value);
   }
 
   onCancel() {

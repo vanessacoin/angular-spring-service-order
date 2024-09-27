@@ -1,17 +1,16 @@
-package com.vanessa.serviceorder.services;
+package com.vanessa.services;
 
 import org.springframework.stereotype.Service;
 
 
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import java.io.ByteArrayOutputStream;
 
-import com.vanessa.serviceorder.entities.ServiceOrder;
-import com.vanessa.serviceorder.repositories.OrderRepository;
-import com.vanessa.serviceorder.resources.exceptions.ResourceNotFoundException;
+import com.vanessa.entities.ServiceOrder;
+import com.vanessa.repositories.OrderRepository;
+import com.vanessa.resources.exceptions.ResourceNotFoundException;
 
 
 @Service

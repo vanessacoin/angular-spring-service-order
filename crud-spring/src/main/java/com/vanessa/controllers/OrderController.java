@@ -1,9 +1,9 @@
-package com.vanessa.serviceorder.controllers;
+package com.vanessa.controllers;
 
-import com.vanessa.serviceorder.entities.ServiceOrder;
-import com.vanessa.serviceorder.resources.exceptions.ResourceNotFoundException;
-import com.vanessa.serviceorder.services.OrderService;
-import com.vanessa.serviceorder.services.PdfService;
+import com.vanessa.entities.ServiceOrder;
+import com.vanessa.resources.exceptions.ResourceNotFoundException;
+import com.vanessa.services.OrderService;
+import com.vanessa.services.PdfService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

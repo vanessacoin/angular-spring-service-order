@@ -4,4 +4,5 @@ export interface Customer {
   cpf: string;
   phone: string;
   email: string;
+  status: boolean
 }

@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,8 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Customer } from '../../model/customer';
@@ -38,6 +38,7 @@ export class CustomerComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
+  customersDataSource: MatTableDataSource<Customer> = new MatTableDataSource();
 
   customers$: Observable<Customer[]>;
   readonly displayedColumns = ['name', 'cpf', 'phone', 'email', 'actions'];
@@ -51,7 +52,9 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.customers$ = this.customerService.list();
+    this.customers$.subscribe(customers => {
+      this.customersDataSource.data = customers;
+    });
   }
 
   onAdd() {

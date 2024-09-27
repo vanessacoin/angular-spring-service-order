@@ -1,11 +1,10 @@
-package com.vanessa.serviceorder.repositories;
-
-import com.vanessa.serviceorder.entities.Vehicle;
+package com.vanessa.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.vanessa.entities.Vehicle;
+
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
-
 }
