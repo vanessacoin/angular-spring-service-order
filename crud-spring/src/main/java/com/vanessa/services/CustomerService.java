@@ -25,7 +25,7 @@ public class CustomerService {
                .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + id));
     }
 
-    public Customer createCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 

@@ -22,13 +22,12 @@ export class CustomerService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    // Aqui você pode tratar o erro como desejar
     console.error('An error occurred:', error);
-    return throwError(() => new Error('Erro na requisição. Por favor, tente novamente mais tarde.'));
+    return throwError(() => new Error('Erro na requisição.'));
   }
 
-  save(record: Customer) {
-    this.httpClient.post<Customer>(this.API, record);
+  saveCustomer(customer: Customer): Observable<Customer> {
+    return this.httpClient.post<Customer>(`${this.API}`, customer);
   }
 
 }
