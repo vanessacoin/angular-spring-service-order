@@ -63,6 +63,9 @@ public class Customer implements Serializable {
     }
 
     public void setName(String name) {
+        if (name.length() < 5 || name.length() > 100) {
+            throw new IllegalArgumentException("O nome deve conter entre 5 e 100 caracteres");
+        }
         this.name = name;
     }
 

@@ -8,6 +8,7 @@ class CrudSpringApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//
 	}
 
 }
