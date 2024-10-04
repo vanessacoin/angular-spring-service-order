@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 import { CustomerService } from '../../services/customer.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer-form',
@@ -20,7 +21,9 @@ import { CustomerService } from '../../services/customer.service';
     MatCardModule,
     MatToolbarModule,
     MatCardActions,
-    MatButtonModule],
+    MatButtonModule,
+    RouterLink
+  ],
   templateUrl: './customer-form.component.html',
   styleUrl: './customer-form.component.scss'
 })
@@ -32,7 +35,9 @@ export class CustomerFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: CustomerService,
     private snackBar: MatSnackBar,
-    private location: Location) {
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.form = this.formBuilder.group({
       name: [null],
       cpf: [null],
@@ -48,10 +53,14 @@ export class CustomerFormComponent implements OnInit {
     if (this.form.valid) {
       this.service
         .saveCustomer(this.form.value)
-        .subscribe((response) => {
-          console.log('Cadastro realizado com sucesso!', response);
-          // Ação após salvar com sucesso, como redirecionar ou limpar o formulário
-        });
+        .subscribe({next: () => {
+          this.router.navigate(['/customer'],
+          {queryParams: { message: 'Cliente salvo com sucesso!' }});
+        },
+        error: (err) => {
+          this.snackBar.open('Erro ao salvar cliente: ' + err.message, '', {duration:3000});
+        }
+      });
     }
   }
 

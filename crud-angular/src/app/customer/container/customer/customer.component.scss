@@ -1,12 +1,18 @@
-table {
-  overflow: auto;
-  max-height: 600px;
-  border-radius: 16px;
+.table-wrapper {
+  max-height: 1100px;
+  overflow-y: auto;
+  overflow-x: auto;
   width: 100%;
+  border-radius: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .customer-container {
-  height: 400px;
+  height: 100%;
   overflow: auto;
 }
 

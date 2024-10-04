@@ -1,6 +1,7 @@
 <mat-card class="customer">
   <mat-card-content>
     <section class="customer-container mat-elevation-z8">
+      <div class="table-wrapper">
       <div *ngIf="customers$ | async as customers; else loading">
         <table mat-table [dataSource]="customersDataSource">
 
@@ -38,7 +39,7 @@
                 <mat-icon>edit</mat-icon>
               </button>
 
-              <button mat-icon-button color="warn" aria-label="Remover Cliente">
+              <button mat-icon-button color="warn" aria-label="Remover Cliente" (click)="onDelete(customer)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
@@ -48,6 +49,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
         </table>
+      </div>
       </div>
 
       <ng-template #loading>

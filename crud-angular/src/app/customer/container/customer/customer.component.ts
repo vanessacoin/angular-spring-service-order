@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -26,7 +27,8 @@ import { CustomerService } from '../../services/customer.service';
     MatCardModule,
     MatProgressSpinnerModule,
     NgIf,
-    AsyncPipe, RouterLink],
+    AsyncPipe,
+    RouterLink],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.scss',
   providers: [CustomerService]
@@ -46,7 +48,8 @@ export class CustomerComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     this.customers$ = this.customerService.list();
   }
@@ -54,7 +57,16 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {
     this.customers$.subscribe(customers => {
       this.customersDataSource.data = customers;
+    })
+
+    this.route.queryParams.subscribe(params => {
+      const message = params['message'];
+
+      if (message) {
+        this.snackBar.open(message, '', { duration: 3000 });
+      }
     });
+
   }
 
   onAdd() {
@@ -66,6 +78,9 @@ export class CustomerComponent implements OnInit {
   }
 
   onDelete(customer: Customer) {
-    this.remove.emit(customer);
+    if(confirm('Deletar cliente ' + customer.name + '?')){
+      //this.remove.emit(customer);
+    }
+
   }
 }
