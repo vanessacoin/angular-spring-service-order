@@ -10,15 +10,15 @@ Desenvolvimento de uma aplicação full-stack utilizando Angular e Spring Boot
 Criar uma aplicação que permita armazenar dados de clientes e veículos, facilitando a geração de orçamentos e ordens de serviço, além de controle de pagamentos
 
 ## Tecnologias utilizadas: 
-Java
-Angular
-Spring Boot
-MySQL, 
-Hibernate, 
-JPA
-API Restful
-Maven
-JUnit
+- Java
+- Angular
+- Spring Boot
+- MySQL
+- Hibernate
+- JPA
+- API Restful
+- Maven
+- JUnit
 
 ## Responsabilidades:
 - Desenvolvimento da aplicação full-stack
