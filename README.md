@@ -1,10 +1,39 @@
 
-Projeto destinado a ser implementado em um ambiente real, focado em armazenar dados de clientes e veículos, facilitando a geração de orçamentos e ordens de serviço, eliminando o retrabalho de preenchimento manual, possibilitando também o controle dos serviços e gestão de pagamentos efetuados pelos clientes.
-
-Project intended to be implemented in a real environment, focused on storing customer and vehicle data, facilitating the generation of quotes and service orders, eliminating manual filling rework, also enabling the control of services and management of payments made by customers.
-
+# Projeto: Full-Stack: Angular+Spring Boot
 
 ![Badge EM ANDAMENTO](https://img.shields.io/badge/EM%20ANDAMENTO-STATUS?style=for-the-badge&label=STATUS&color=%23eb7bc0)
+
+## Projeto autônomo: 
+Desenvolvimento de uma aplicação full-stack utilizando Angular e Spring Boot
+
+## Objetivo: 
+Criar uma aplicação que permita armazenar dados de clientes e veículos, facilitando a geração de orçamentos e ordens de serviço, além de controle de pagamentos
+
+## Tecnologias utilizadas: 
+Java
+Angular
+Spring Boot
+MySQL, 
+Hibernate, 
+JPA
+API Restful
+Maven
+JUnit
+
+## Responsabilidades:
+- Desenvolvimento da aplicação full-stack
+- Implementação de funcionalidades de CRUD (criar, ler, atualizar e deletar)
+- Integração com banco de dados MySQL
+- Implementação de autenticação e autorização
+
+## Habilidades Desenvolvidas:
+- Gerenciamento de projetos
+- Trabalho independente
+- Resolução de problemas
+- Desenvolvimento de soluções
+
+Projeto destinado a ser implementado em um ambiente real, focado em armazenar dados de clientes e veículos, facilitando a geração de orçamentos e ordens de serviço, eliminando o retrabalho de preenchimento manual, possibilitando também o controle dos serviços e gestão de pagamentos efetuados pelos clientes.
+
 
 # CrudAngular
 
