@@ -40,18 +40,19 @@ export class CustomerComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  customersDataSource: MatTableDataSource<Customer> = new MatTableDataSource();
+  //customersDataSource: MatTableDataSource<Customer> = new MatTableDataSource();
+  customersDataSource: MatTableDataSource<Customer> = new MatTableDataSource<Customer>([]);
 
   customers$: Observable<Customer[]>;
   readonly displayedColumns = ['name', 'cpf', 'phone', 'email', 'actions'];
 
   constructor(
-    private customerService: CustomerService,
+    private service: CustomerService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
-    this.customers$ = this.customerService.list();
+    this.customers$ = this.service.list();
   }
 
   ngOnInit(): void {
@@ -87,8 +88,18 @@ export class CustomerComponent implements OnInit {
 
   onDelete(customer: Customer) {
     if(confirm('Deletar cliente ' + customer.name + '?')){
-      //this.remove.emit(customer);
+      this.service.deleteCustomer(customer._id)
+          .subscribe({
+            next: () => {
+              this.snackBar.open('Cliente deletado com sucesso!', '', { duration: 3000 });
+              const filteredCustomers = this.customersDataSource.data.filter(c => c._id !== customer._id);
+              this.customersDataSource.data = filteredCustomers;
+            },
+            error: (err) => {
+              this.snackBar.open('Erro ao deletar cliente: ' + err.message, 'Fechar', { duration: 5000 });
+            }
+          });
     }
-
   }
+
 }

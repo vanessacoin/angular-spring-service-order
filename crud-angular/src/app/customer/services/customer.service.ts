@@ -38,4 +38,8 @@ export class CustomerService {
     return this.httpClient.put<Customer>(`${this.API}/${id}`, customer);
   }
 
+  deleteCustomer(id: number): Observable<Customer> {
+    return this.httpClient.delete<Customer>(`${this.API}/${id}`);
+  }
+
 }
