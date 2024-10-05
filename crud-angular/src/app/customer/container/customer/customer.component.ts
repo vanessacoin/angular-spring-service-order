@@ -73,8 +73,16 @@ export class CustomerComponent implements OnInit {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 
-  onEdit(customer: Customer) {
-    this.edit.emit(customer);
+  onUpdate(customer: Customer) {
+    this.router.navigate(['new'], { relativeTo: this.route,
+      queryParams: {
+        id: customer._id,
+        name: customer.name,
+        cpf: customer.cpf,
+        phone: customer.phone,
+        email: customer.email
+      }
+     });
   }
 
   onDelete(customer: Customer) {

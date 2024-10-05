@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,14 +30,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 export class CustomerFormComponent implements OnInit {
 
   form: FormGroup;
+  isEditing: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private service: CustomerService,
     private snackBar: MatSnackBar,
-    private location: Location,
     private router: Router,
     private route: ActivatedRoute) {
     this.form = this.formBuilder.group({
+      id: [null],
       name: [null],
       cpf: [null],
       phone: [null],
@@ -47,20 +47,47 @@ export class CustomerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.isEditing = true;
+        this.form.patchValue({
+          id: params['id'],
+          name: params['name'],
+          cpf: params['cpf'],
+          phone: params['phone'],
+          email: params['email']
+        });
+      }
+    });
+
   }
 
-  onSubmit() {
+  onSave() {
     if (this.form.valid) {
-      this.service
-        .saveCustomer(this.form.value)
-        .subscribe({next: () => {
-          this.router.navigate(['/customer'],
-          {queryParams: { message: 'Cliente salvo com sucesso!' }});
-        },
-        error: (err) => {
-          this.snackBar.open('Erro ao salvar cliente: ' + err.message, '', {duration:3000});
-        }
-      });
+      if (this.isEditing) {
+        this.service.updateCustomer(this.form.value.id, this.form.value)
+          .subscribe({
+            next: () => {
+              this.router.navigate(['/customer'],
+              { queryParams: { message: 'Cliente atualizado com sucesso!' } });
+            },
+            error: (err) => {
+              this.snackBar.open('Erro ao atualizar cliente: ' + err.message, 'Fechar', { duration: 5000 });
+            }
+          });
+      } else {
+        this.service.saveCustomer(this.form.value)
+          .subscribe({
+            next: () => {
+              this.router.navigate(['/customer'],
+              { queryParams: { message: 'Cliente salvo com sucesso!' } });
+            },
+            error: (err) => {
+              this.snackBar.open('Erro ao salvar cliente: ' + err.message, '', { duration: 3000 });
+            }
+          });
+      }
     }
   }
 

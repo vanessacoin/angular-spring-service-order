@@ -13,7 +13,7 @@ export class CustomerService {
 
   private readonly API = '/api/customers';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   list(): Observable<Customer[]> {
     return this.httpClient.get<Customer[]>(this.API).pipe(
@@ -26,8 +26,16 @@ export class CustomerService {
     return throwError(() => new Error('Erro na requisição.'));
   }
 
+  getCustomerById(id: number): Observable<Customer> {
+    return this.httpClient.get<Customer>(`${this.API}/${id}`);
+  }
+
   saveCustomer(customer: Customer): Observable<Customer> {
     return this.httpClient.post<Customer>(`${this.API}`, customer);
+  }
+
+  updateCustomer(id: number, customer: Customer): Observable<Customer> {
+    return this.httpClient.put<Customer>(`${this.API}/${id}`, customer);
   }
 
 }
