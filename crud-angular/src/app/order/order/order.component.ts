@@ -142,7 +142,7 @@ export class OrderComponent implements OnInit {
 
   onCustomerChange(): void {
     if (this.selectedCustomer) {
-      this.filteredVehicles = this.vehicles.filter(vehicle => vehicle.id_customer === this.selectedCustomer!.id);
+      this.filteredVehicles = this.vehicles.filter(vehicle => vehicle.customer.id === this.selectedCustomer!.id);
     } else {
       this.filteredVehicles = [];
     }

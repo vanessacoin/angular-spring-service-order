@@ -15,7 +15,6 @@ import { Observable } from 'rxjs';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from './../../model/vehicle';
 
-;
 @Component({
   selector: 'app-vehicle',
   standalone: true,
@@ -44,7 +43,7 @@ export class VehicleComponent implements OnInit {
   vehiclesDataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>([]);
 
   vehicles$: Observable<Vehicle[]>;
-  displayedColumns: string[] = ['brand', 'model', 'plate', 'year', 'color', 'id_customer', 'actions']
+  displayedColumns: string[] = ['brand', 'model', 'plate', 'year', 'color', 'customerName', 'actions']
 
   constructor(
     private readonly service: VehicleService,
@@ -83,9 +82,8 @@ export class VehicleComponent implements OnInit {
         plate: vehicle.plate,
         year: vehicle.year,
         color: vehicle.color,
-        id_customer: vehicle.id_customer
-      }
-     });
+        id_customer: vehicle.customer.id }
+      });
   }
 
   onDelete(vehicle: Vehicle) {

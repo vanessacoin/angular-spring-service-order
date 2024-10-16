@@ -1,3 +1,5 @@
+import { Customer } from "../../customer/model/customer";
+
 export interface Vehicle {
   id: number;
   brand: string;
@@ -5,5 +7,5 @@ export interface Vehicle {
   plate: string;
   year: number;
   color: string;
-  id_customer: number;
+  customer: Customer;
 }
