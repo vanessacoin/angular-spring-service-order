@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,7 +21,7 @@ public class Vehicle implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("_id")
+    @JsonProperty("id")
     private Long id;
 
     @NotBlank
@@ -40,27 +42,28 @@ public class Vehicle implements Serializable {
     @Column(length = 100, nullable = false)
     private String plate;
 
-    @NotBlank
     @NotNull
-    @Length(min = 4, max = 4)
-    @Column(length = 4, nullable = false)
+    @Column(length = 4, columnDefinition = "YEAR", nullable = false)
     private int year;
 
     private String color;
 
-    private Long idCustomer;
+    // Mapeamento da FK com Customer
+    @ManyToOne
+    @JoinColumn(name = "id_customer", referencedColumnName = "id")
+    private Customer customer;
 
     public Vehicle() {
     }
 
-    public Vehicle(final Long id, final String brand, final String model, final String plate, final int year, final String color, final Long idCustomer) {
+    public Vehicle(final Long id, final String brand, final String model, final String plate, final int year, final String color, final Customer customer) {
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.plate = plate;
         this.year = year;
         this.color = color;
-        this.idCustomer = idCustomer;
+        this.customer = customer ;
     }
 
     public Long getId() {
@@ -111,12 +114,12 @@ public class Vehicle implements Serializable {
         this.color = color;
     }
 
-    public Long getIdCustomer() {
-        return idCustomer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setIdCustomer(Long idCustomer) {
-        this.idCustomer = idCustomer;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 }

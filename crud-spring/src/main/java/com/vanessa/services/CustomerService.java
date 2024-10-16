@@ -37,7 +37,6 @@ public class CustomerService {
         
         if (existingCustomerOpt.isPresent()) {
             Customer existingCustomer = existingCustomerOpt.get();
-            // Atualiza os campos desejados
             existingCustomer.setName(updatedCustomer.getName());
             existingCustomer.setCpf(updatedCustomer.getCpf());
             existingCustomer.setPhone(updatedCustomer.getPhone());

@@ -13,7 +13,7 @@ export class CustomerService {
 
   private readonly API = '/api/customers';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   list(): Observable<Customer[]> {
     return this.httpClient.get<Customer[]>(this.API).pipe(

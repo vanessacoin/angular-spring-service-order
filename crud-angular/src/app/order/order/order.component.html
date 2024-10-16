@@ -27,8 +27,7 @@
       <mat-label>Veículo</mat-label>
       <mat-select [(ngModel)]="selectedVehicle" name="vehicle">
         <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle">{{ vehicle.brand }} - {{ vehicle.model }}
-          - {{
-          vehicle.color }}</mat-option>
+          - {{vehicle.color }}</mat-option>
       </mat-select>
     </mat-form-field>
 

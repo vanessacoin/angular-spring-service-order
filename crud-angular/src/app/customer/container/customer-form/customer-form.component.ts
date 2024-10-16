@@ -6,10 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CustomerService } from '../../services/customer.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer-form',
@@ -32,18 +31,20 @@ export class CustomerFormComponent implements OnInit {
   form: FormGroup;
   isEditing: boolean = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private service: CustomerService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute) {
-    this.form = this.formBuilder.group({
-      id: [null],
-      name: [null],
-      cpf: [null],
-      phone: [null],
-      email: [null]
-    });
+    private route: ActivatedRoute
+  ) {
+      this.form = this.formBuilder.group({
+        id: [null],
+        name: [null],
+        cpf: [null],
+        phone: [null],
+        email: [null]
+      });
   }
 
   ngOnInit(): void {
@@ -66,29 +67,37 @@ export class CustomerFormComponent implements OnInit {
   onSave() {
     if (this.form.valid) {
       if (this.isEditing) {
-        this.service.updateCustomer(this.form.value.id, this.form.value)
+        this.service
+        .updateCustomer(this.form.value.id, this.form.value)
           .subscribe({
             next: () => {
               this.router.navigate(['/customer'],
-              { queryParams: { message: 'Cliente atualizado com sucesso!' } });
+              { queryParams: { message: 'Cliente atualizado com sucesso!' } }
+              );
             },
             error: (err) => {
               this.snackBar.open('Erro ao atualizar cliente: ' + err.message, 'Fechar', { duration: 5000 });
             }
           });
       } else {
-        this.service.saveCustomer(this.form.value)
-          .subscribe({
-            next: () => {
-              this.router.navigate(['/customer'],
-              { queryParams: { message: 'Cliente salvo com sucesso!' } });
-            },
-            error: (err) => {
-              this.snackBar.open('Erro ao salvar cliente: ' + err.message, '', { duration: 3000 });
-            }
-          });
+        this.service
+        .saveCustomer(this.form.value)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/customer'],
+            { queryParams: { message: 'Cliente salvo com sucesso!' } }
+            );
+          },
+          error: (err) => {
+            this.snackBar.open('Erro ao salvar cliente: ' + err.message, '', { duration: 5000 });
+          }
+        });
       }
     }
+  }
+
+  onCancel() {
+    this.router.navigate(['/customer']);
   }
 
 }

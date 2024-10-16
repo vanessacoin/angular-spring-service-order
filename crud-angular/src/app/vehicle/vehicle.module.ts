@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { VehicleRoutingModule } from './vehicle-routing.module';
 
@@ -7,7 +8,9 @@ import { VehicleRoutingModule } from './vehicle-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    VehicleRoutingModule
+    VehicleRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class VehicleModule { }

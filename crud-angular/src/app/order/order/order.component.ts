@@ -90,7 +90,14 @@ export class OrderComponent implements OnInit {
     usedItems: []
   };
 
-  constructor(private customerService: CustomerService, private vehicleService: VehicleService, private http: HttpClient, private orderService: OrderService) {}
+  constructor(
+    private customerService: CustomerService,
+    private vehicleService: VehicleService,
+    private http: HttpClient,
+    private orderService: OrderService
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.orderDate = new Date();
@@ -135,7 +142,7 @@ export class OrderComponent implements OnInit {
 
   onCustomerChange(): void {
     if (this.selectedCustomer) {
-      this.filteredVehicles = this.vehicles.filter(vehicle => vehicle.id_customer === this.selectedCustomer!._id);
+      this.filteredVehicles = this.vehicles.filter(vehicle => vehicle.id_customer === this.selectedCustomer!.id);
     } else {
       this.filteredVehicles = [];
     }

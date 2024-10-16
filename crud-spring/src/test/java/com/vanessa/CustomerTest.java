@@ -1,6 +1,7 @@
 package com.vanessa;
 
 import com.vanessa.entities.Customer;
+
 import org.junit.jupiter.api.Test;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -9,7 +10,6 @@ import jakarta.validation.ValidatorFactory;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 class CustomerTest {
 

@@ -12,11 +12,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Customer } from '../../model/customer';
-import { CustomerService } from '../../services/customer.service';
+import { VehicleService } from '../../services/vehicle.service';
+import { Vehicle } from './../../model/vehicle';
 
+;
 @Component({
-  selector: 'app-customer',
+  selector: 'app-vehicle',
   standalone: true,
   imports: [MatTabsModule,
     MatInputModule,
@@ -25,38 +26,38 @@ import { CustomerService } from '../../services/customer.service';
     MatTableModule,
     HttpClientModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     NgIf,
     AsyncPipe,
+    MatProgressSpinnerModule,
     RouterLink],
-  templateUrl: './customer.component.html',
-  styleUrl: './customer.component.scss',
-  providers: [CustomerService]
+  templateUrl: './vehicle.component.html',
+  styleUrl: './vehicle.component.scss',
+  providers: [VehicleService]
 })
 
-export class CustomerComponent implements OnInit {
-  @Input() customer_list: Customer[] = [];
+export class VehicleComponent implements OnInit {
+  @Input() vehicle_list: Vehicle[] = [];
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  customersDataSource: MatTableDataSource<Customer> = new MatTableDataSource<Customer>([]);
+  vehiclesDataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>([]);
 
-  customers$: Observable<Customer[]>;
-  readonly displayedColumns = ['name', 'cpf', 'phone', 'email', 'actions'];
+  vehicles$: Observable<Vehicle[]>;
+  displayedColumns: string[] = ['brand', 'model', 'plate', 'year', 'color', 'id_customer', 'actions']
 
   constructor(
-    private readonly service: CustomerService,
+    private readonly service: VehicleService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar
   ) {
-    this.customers$ = this.service.list();
-  }
+    this.vehicles$ = this.service.list();
+   }
 
   ngOnInit(): void {
-    this.customers$.subscribe(customers => {
-      this.customersDataSource.data = customers;
+    this.vehicles$.subscribe(vehicles => {
+      this.vehiclesDataSource.data = vehicles;
     })
 
     this.route.queryParams.subscribe(params => {
@@ -73,26 +74,28 @@ export class CustomerComponent implements OnInit {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 
-  onUpdate(customer: Customer) {
+  onUpdate(vehicle: Vehicle) {
     this.router.navigate(['new'], { relativeTo: this.route,
       queryParams: {
-        id: customer.id,
-        name: customer.name,
-        cpf: customer.cpf,
-        phone: customer.phone,
-        email: customer.email
+        id: vehicle.id,
+        brand: vehicle.brand,
+        model: vehicle.model,
+        plate: vehicle.plate,
+        year: vehicle.year,
+        color: vehicle.color,
+        id_customer: vehicle.id_customer
       }
      });
   }
 
-  onDelete(customer: Customer) {
-    if(confirm('Deletar cliente ' + customer.name + '?')){
-      this.service.deleteCustomer(customer.id)
+  onDelete(vehicle: Vehicle) {
+    if(confirm('Deletar veículo ' + vehicle.model + vehicle.brand + vehicle.color + '?')){
+      this.service.deleteVehicle(vehicle.id)
           .subscribe({
             next: () => {
               this.snackBar.open('Cliente deletado com sucesso!', '', { duration: 3000 });
-              const filteredCustomers = this.customersDataSource.data.filter(c => c.id !== customer.id);
-              this.customersDataSource.data = filteredCustomers;
+              const filteredVehicles = this.vehiclesDataSource.data.filter(c => c.id !== vehicle.id);
+              this.vehiclesDataSource.data = filteredVehicles;
             },
             error: (err) => {
               this.snackBar.open('Erro ao deletar cliente: ' + err.message, 'Fechar', { duration: 5000 });
@@ -102,3 +105,6 @@ export class CustomerComponent implements OnInit {
   }
 
 }
+
+
+

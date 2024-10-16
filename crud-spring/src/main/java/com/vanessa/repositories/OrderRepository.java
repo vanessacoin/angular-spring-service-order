@@ -7,5 +7,5 @@ import com.vanessa.entities.ServiceOrder;
 
 @Repository
 public interface OrderRepository extends JpaRepository<ServiceOrder, Long> {
-    
+   
 }
