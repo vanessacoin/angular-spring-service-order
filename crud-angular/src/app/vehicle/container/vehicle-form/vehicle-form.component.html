@@ -28,7 +28,7 @@
         <mat-label>Cliente</mat-label>
         <mat-select formControlName="customer">
           @for (customer of customers; track customer) {
-            <mat-option [value]="customer.id">{{customer.name}} {{customer.cpf}}(CPF)  {{customer.cpf}}(Tel)</mat-option>
+            <mat-option [value]="customer.id">{{customer.name}} {{customer.cpf}}(CPF)  {{customer.phone}}(Tel)</mat-option>
           }
         </mat-select>
       </mat-form-field>

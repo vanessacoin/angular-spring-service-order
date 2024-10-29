@@ -1,6 +1,5 @@
 package com.vanessa.controllers;
 
-import com.vanessa.entities.Customer;
 import com.vanessa.entities.Vehicle;
 import com.vanessa.resources.exceptions.ResourceNotFoundException;
 import com.vanessa.services.VehicleService;
@@ -33,7 +32,7 @@ public class VehicleController {
         return vehicleService.getAllVehicles();
     }
 
-    @GetMapping("/vehicle/(id)")
+    @GetMapping("/vehicles/{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
         return ResponseEntity.ok(vehicle);

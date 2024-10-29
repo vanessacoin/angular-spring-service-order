@@ -13,6 +13,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CustomerService } from '../../../customer/services/customer.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { Customer } from './../../../customer/model/customer';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -59,12 +60,12 @@ export class VehicleFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    this.customerService.list().subscribe((data: Customer[]) => {
-      this.customers = data;
-    });
-
-    this.route.queryParams.subscribe(params => {
+    this.customerService.list().pipe(
+      switchMap((data: Customer[]) => {
+        this.customers = data;
+        return this.route.queryParams;
+      })
+    ).subscribe(params => {
       if (params['id']) {
         this.isEditing = true;
         this.form.patchValue({
@@ -74,12 +75,12 @@ export class VehicleFormComponent implements OnInit{
           plate: params['plate'],
           year: params['year'],
           color: params['color'],
-          customer: this.customers.find(cust => cust.id === params['customer'])
+          customer: +params['customer']
         });
       }
     });
-
   }
+
 
   onSave() {
     if (this.form.valid) {

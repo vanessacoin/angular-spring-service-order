@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 import { Vehicle } from './../model/vehicle';
 
@@ -9,12 +9,19 @@ import { Vehicle } from './../model/vehicle';
 })
 export class VehicleService {
 
-  private readonly API = 'api/vehicles';
+  private readonly API = '/api/vehicles';
 
   constructor(private readonly httpClient: HttpClient) { }
 
   list(): Observable<Vehicle[]>{
-    return this.httpClient.get<Vehicle[]>(this.API);
+    return this.httpClient.get<Vehicle[]>(this.API).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Erro na requisição.'));
   }
 
   getVehicleById(id: number): Observable<Vehicle> {

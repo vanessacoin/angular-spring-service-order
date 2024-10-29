@@ -82,17 +82,17 @@ export class VehicleComponent implements OnInit {
         plate: vehicle.plate,
         year: vehicle.year,
         color: vehicle.color,
-        id_customer: vehicle.customer.id }
+        customer: vehicle.customer.id }
       });
   }
 
   onDelete(vehicle: Vehicle) {
-    if(confirm('Deletar veículo ' + vehicle.model + vehicle.brand + vehicle.color + '?')){
+    if(confirm('Deletar veículo ' + vehicle.model + ' ' + vehicle.brand + ' ' + vehicle.color + '?')){
       this.service.deleteVehicle(vehicle.id)
           .subscribe({
             next: () => {
-              this.snackBar.open('Cliente deletado com sucesso!', '', { duration: 3000 });
-              const filteredVehicles = this.vehiclesDataSource.data.filter(c => c.id !== vehicle.id);
+              this.snackBar.open('Veículo deletado com sucesso!', '', { duration: 3000 });
+              const filteredVehicles = this.vehiclesDataSource.data.filter(v => v.id !== vehicle.id);
               this.vehiclesDataSource.data = filteredVehicles;
             },
             error: (err) => {
