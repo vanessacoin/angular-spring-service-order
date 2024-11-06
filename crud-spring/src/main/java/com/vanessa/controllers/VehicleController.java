@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vehicles")
+@RequestMapping("api/vehicles")
 public class VehicleController {
 
     private final VehicleService vehicleService;

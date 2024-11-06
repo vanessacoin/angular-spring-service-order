@@ -1,7 +1,11 @@
 package com.vanessa.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 
 @Entity
 
@@ -13,7 +17,8 @@ public class UsedItems implements Serializable {
     private String description;
     private int totalQuantity;
     private float unitPrice;
-    private float amount;
+    @Digits(integer = 10, fraction = 2)
+    private BigDecimal amount;
     @Column(name = "order_id")
     private ServiceOrder order;
 
@@ -50,11 +55,11 @@ public class UsedItems implements Serializable {
         this.unitPrice = unitPrice;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -64,5 +69,13 @@ public class UsedItems implements Serializable {
 
     public void setOrder(ServiceOrder order) {
         this.order = order;
+    }
+
+    public BigDecimal totalAmount(int totalQuantity, float unitPrice) {
+        BigDecimal quantity = BigDecimal.valueOf(totalQuantity);
+        BigDecimal price = BigDecimal.valueOf(unitPrice);
+
+        this.amount = quantity.multiply(price).setScale(2, RoundingMode.HALF_UP);
+        return amount;
     }
 }

@@ -1,6 +1,6 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardModule } from '@angular/material/card';
@@ -25,7 +25,7 @@ import { CustomerService } from './../../customer/services/customer.service';
 import { Vehicle } from './../../vehicle/model/vehicle';
 import { VehicleService } from './../../vehicle/services/vehicle.service';
 
-import { OrderService } from '../services/order.service'; // Importa o serviço
+import { OrderService } from '../services/order.service';
 
 
 @Component({
@@ -58,17 +58,25 @@ import { OrderService } from '../services/order.service'; // Importa o serviço
 
 export class OrderComponent implements OnInit {
   orderDate = new Date();
+
   customers: Customer[] = [];
-  vehicles: Vehicle[] = [];
-  filteredVehicles: Vehicle[] = [];
   selectedCustomer: Customer | undefined;
+
+  vehicles: Vehicle[] = [];
   selectedVehicle: Vehicle | undefined;
+  filteredVehicles: Vehicle[] = [];
 
   requestedService: RequestedService[] = [];
   idRequestedServiceCounter: number = 1;
 
   usedItems: UsedItem[] = [];
   idItemCounter: number = 1;
+
+  laborCost = 0;
+  totalCost = 0;
+  totalItems = 0;
+  totalOrder = 0;
+  totalUsedItems: number = 0;
 
   order: Order = {
     id: 0,
@@ -88,13 +96,13 @@ export class OrderComponent implements OnInit {
     vehicleCustomerId: '',
     requestedServices: [],
     usedItems: []
-  };
+  }
 
   constructor(
-    private customerService: CustomerService,
-    private vehicleService: VehicleService,
-    private http: HttpClient,
-    private orderService: OrderService
+    private readonly customerService: CustomerService,
+    private readonly vehicleService: VehicleService,
+    private readonly http: HttpClient,
+    private readonly orderService: OrderService
   ) {
 
   }
@@ -110,16 +118,46 @@ export class OrderComponent implements OnInit {
       this.vehicles = data;
       this.filteredVehicles = [];
     });
+
+    this.updateTotalItems();
+    this.updateTotalOrder();
+  }
+
+  updateTotalCost(totalUsedItems: number): void {
+    this.totalUsedItems = totalUsedItems;
+    this.updateTotalOrder();
+  }
+
+  onLaborCostChange(event: any): void {
+    this.laborCost = +event.target.value || 0;
+    this.updateTotalOrder();
+  }
+
+  updateTotalItems(): void {
+    this.totalItems = this.usedItems.reduce((sum, item) => sum + item.amount, 0);
+    this.updateTotalOrder();
+  }
+
+  updateTotalOrder(): void {
+    this.totalOrder = this.totalUsedItems + this.laborCost;
+  }
+
+  onUsedItemsChange(updatedUsedItems: UsedItem[]): void {
+    this.usedItems = updatedUsedItems;
+    this.updateTotalOrder();
   }
 
   submitOrder() {
-    this.orderService.saveOrder(this.order).subscribe(response => {
-      console.log('Order saved', response);
-      const orderId = response.id;
-      this.generateOrderPdf(orderId);
-    }, error => {
-      console.error('Error saving order', error);
-    });
+    this.orderService.saveOrder(this.order).subscribe(
+      response => {
+        console.log('Order saved', response);
+        const orderId = response.id;
+        this.generateOrderPdf(orderId);
+      },
+      error => {
+        console.error('Error saving order', error);
+      }
+    );
   }
 
   generateOrderPdf(orderId: number): void {
@@ -148,5 +186,4 @@ export class OrderComponent implements OnInit {
     }
     this.selectedVehicle = undefined;
   }
-
 }

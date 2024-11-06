@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatLabel } from '@angular/material/form-field';
@@ -12,6 +12,9 @@ import {
   MatTableDataSource,
   MatTableModule,
 } from '@angular/material/table';
+
+import { CommonModule } from '@angular/common';
+import { UsedItemsService } from '../services/used-items.service';
 
 export interface UsedItem {
   id: number;
@@ -35,16 +38,22 @@ export interface UsedItem {
     MatHeaderRow,
     MatRow,
     MatTableModule,
-    MatButtonModule],
+    MatButtonModule,
+    CommonModule],
   templateUrl: './used-items.component.html',
-  styleUrl: './used-items.component.scss'
+  styleUrl: './used-items.component.scss',
+  providers: [UsedItemsService]
 })
 export class UsedItemsComponent implements OnInit {
   @Input() usedItems: UsedItem[] = [];
   @Input() idItemCounter: number = 1;
-  displayedColumnsUsedItems: string[] = ['id', 'description', 'total_quantity', 'unit_price', 'amount', 'actions'];
+  @Output() usedItemsChange = new EventEmitter<UsedItem[]>();
+  @Output() totalAmountChange = new EventEmitter<number>();
 
-  dataSourceUsedItems = new MatTableDataSource<UsedItem>(this.usedItems);
+  displayedColumnsUsedItems: string[] = ['id', 'description', 'total_quantity', 'unit_price', 'amount', 'actions'];
+  dataSourceUsedItems = new MatTableDataSource<UsedItem>([]);
+
+  constructor(private readonly usedItemsService: UsedItemsService) {}
 
   ngOnInit(): void {
     console.log("UsedItemsComponent initialized");
@@ -56,18 +65,22 @@ export class UsedItemsComponent implements OnInit {
     const totalQuantityString = prompt('Quantidade Total:');
     const unitPriceString = prompt('Preço Unitário:');
 
-    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString) : 0;
+    const totalQuantity = totalQuantityString ? parseInt(totalQuantityString) : 0;
     const unitPrice = unitPriceString ? parseFloat(unitPriceString) : 0;
 
     if (description && totalQuantity > 0 && unitPrice > 0) {
-      const amount = totalQuantity * unitPrice;
-      this.addUsedItems({
-        id: this.idItemCounter++,
-        description,
-        total_quantity: totalQuantity,
-        unit_price: unitPrice,
-        amount,
-      });
+      this.usedItemsService.calculateAmount(totalQuantity, unitPrice). subscribe(
+        (calculatedAmount) => {
+          this.addUsedItems({
+            id: this.idItemCounter++,
+            description,
+            total_quantity: totalQuantity,
+            unit_price: unitPrice,
+            amount: calculatedAmount
+          });
+        },
+        (error) => console.error('Erro ao calcular o valor: ', error)
+      );
     }
   }
 
@@ -80,11 +93,16 @@ export class UsedItemsComponent implements OnInit {
     const unitPrice = unitPriceString ? parseFloat(unitPriceString) : item.unit_price;
 
     if (description && totalQuantity > 0 && unitPrice > 0) {
-      item.description = description;
-      item.total_quantity = totalQuantity;
-      item.unit_price = unitPrice;
-      item.amount = totalQuantity * unitPrice;
-      this.updateTableData();
+      this.usedItemsService.calculateAmount(totalQuantity, unitPrice).subscribe(
+        (calculatedAmount) => {
+          item.description = description;
+          item.total_quantity = totalQuantity;
+          item.unit_price = unitPrice;
+          item.amount = calculatedAmount;
+          this.updateTableData();
+        },
+        (error) => console.error('Erro ao calcular o valor:', error)
+      );
     }
   }
 
@@ -107,7 +125,13 @@ export class UsedItemsComponent implements OnInit {
   }
 
   private updateTableData(): void {
-    this.dataSourceUsedItems.data = [...this.usedItems];
+    this.dataSourceUsedItems.data = this.usedItems;
+    this.usedItemsChange.emit(this.usedItems);
+    this.emitTotalAmount();
   }
 
+  protected emitTotalAmount(): void {
+    const totalAmount = this.usedItems.reduce((acc, item) => acc + item.amount, 0);
+    this.totalAmountChange.emit(Number(totalAmount.toFixed(2)));
+  }
 }

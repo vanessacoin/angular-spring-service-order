@@ -30,7 +30,9 @@
           - {{vehicle.color }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
 
+  <div>
     <td><mat-form-field>
       <mat-label>Km</mat-label>
       <input matInput>
@@ -108,7 +110,7 @@
 
     <div>
       <form>
-        <app-used-items
+        <app-used-items (totalAmountChange)="updateTotalCost($event)"
           [usedItems]="usedItems"
           [idItemCounter]="idItemCounter">
         </app-used-items>
@@ -119,21 +121,18 @@
   <div>
     <h2 class="informative-title-order">Mão de Obra</h2>
 
-    <div class="form-container" id="customer-registered-data">
-      <td><mat-form-field>
-        <mat-label>Valor de Mão de Obra</mat-label>
-        <input matInput>
-      </mat-form-field></td>
+    <div class="form-container">
+      <td>
+        <input type="number" (input)="onLaborCostChange($event)"
+        [value]="laborCost || 0" placeholder="0" />
+      </td>
     </div>
   </div>
 
   <div>
-    <h2 class="informative-title-order">Total</h2>
+    <h2 class="informative-title-order">Total Geral</h2>
 
-    <td><mat-form-field>
-      <mat-label></mat-label>
-      <input matInput disabled>
-    </mat-form-field></td>
+    <p>{{ totalOrder | currency:'BRL' }}</p>
   </div>
 
   <div class="button-container">
