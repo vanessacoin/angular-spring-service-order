@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatLabel } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatCell,
   MatHeaderCell,
@@ -30,7 +30,7 @@ export interface UsedItem {
   imports: [
     MatTable,
     MatCard,
-    MatIcon,
+    MatIconModule,
     MatLabel,
     MatCardContent,
     MatCell,
@@ -65,8 +65,8 @@ export class UsedItemsComponent implements OnInit {
     const totalQuantityString = prompt('Quantidade Total:');
     const unitPriceString = prompt('Preço Unitário:');
 
-    const totalQuantity = totalQuantityString ? parseInt(totalQuantityString) : 0;
-    const unitPrice = unitPriceString ? parseFloat(unitPriceString) : 0;
+    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString.replace(',', '.')) : 0;
+    const unitPrice = unitPriceString ? parseFloat(unitPriceString.replace(',', '.')) : 0;
 
     if (description && totalQuantity > 0 && unitPrice > 0) {
       this.usedItemsService.calculateAmount(totalQuantity, unitPrice). subscribe(
@@ -89,8 +89,8 @@ export class UsedItemsComponent implements OnInit {
     const totalQuantityString = prompt('Editar Quantidade Total:', item.total_quantity.toString());
     const unitPriceString = prompt('Editar Preço Unitário:', item.unit_price.toString());
 
-    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString) : item.total_quantity;
-    const unitPrice = unitPriceString ? parseFloat(unitPriceString) : item.unit_price;
+    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString.replace(',', '.')) : item.total_quantity;
+    const unitPrice = unitPriceString ? parseFloat(unitPriceString.replace(',', '.')) : item.unit_price;
 
     if (description && totalQuantity > 0 && unitPrice > 0) {
       this.usedItemsService.calculateAmount(totalQuantity, unitPrice).subscribe(
