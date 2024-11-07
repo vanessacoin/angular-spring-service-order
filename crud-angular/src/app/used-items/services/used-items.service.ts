@@ -17,4 +17,8 @@ export class UsedItemsService {
 
     return this.httpClient.post<number>(`${this.apiUrl}/calculateAmount`, null, { params });
   }
+
+  deleteUsedItem(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`/api/used-items/${id}`);
+  }
 }

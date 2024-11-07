@@ -107,9 +107,16 @@ export class UsedItemsComponent implements OnInit {
   }
 
   onDeleteUsedItems(id: number) {
-    this.usedItems = this.usedItems.filter(service => service.id !== id);
-    this.reorganizeIds();
-    this.updateTableData();
+    if (confirm('Tem certeza que deseja excluir o item ${id}?')) {
+      this.usedItemsService.deleteUsedItem(id).subscribe({
+        next: () => {
+          this.usedItems = this.usedItems.filter(item => item.id !== id);
+          this.reorganizeIds();
+          this.updateTableData();
+        },
+        error: (err) => console.error('Erro ao deletar item:', err),
+      });
+    }
   }
 
   private addUsedItems(service: UsedItem): void {
