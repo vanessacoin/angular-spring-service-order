@@ -18,11 +18,16 @@ public class OrderService {
 
     private OrderRepository orderRepository;
 
-    public ServiceOrder createOrder(ServiceOrder serviceOrder) {
-        byte[] pdfBytes = generatePdf(serviceOrder);
-        //serviceOrder.setPdf(pdfBytes);
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
-        return orderRepository.save(serviceOrder);
+    public ServiceOrder createOrder(ServiceOrder order) {
+        System.out.println("Recebendo ordem: " + order);
+        if (order.getCustomerId() == null || order.getVehicleId() == null) {
+            throw new RuntimeException("Cliente e veículo são obrigatórios");
+        }
+        return orderRepository.save(order);
     }
 
     public ServiceOrder getOrderById(Long id) {

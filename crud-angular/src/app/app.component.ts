@@ -37,7 +37,7 @@ export class AppComponent {
   readonly breakpoint$ = this.breakpointObserver
   .observe([ '(max-width: 500px)']);
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {
+  constructor(private readonly breakpointObserver: BreakpointObserver, private readonly router: Router) {
     this.breakpoint$.subscribe(() =>
       this.breakpointChanges()
   );

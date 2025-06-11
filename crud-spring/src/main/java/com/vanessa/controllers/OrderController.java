@@ -4,7 +4,6 @@ import com.vanessa.entities.ServiceOrder;
 import com.vanessa.resources.exceptions.ResourceNotFoundException;
 import com.vanessa.services.OrderService;
 import com.vanessa.services.PdfService;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,10 @@ public class OrderController {
     private OrderService orderService;
 
     private PdfService pdfService; 
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @PostMapping
     public ResponseEntity<ServiceOrder> createOrder(@RequestBody ServiceOrder order) {

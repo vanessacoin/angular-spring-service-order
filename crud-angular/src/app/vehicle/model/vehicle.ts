@@ -8,4 +8,5 @@ export interface Vehicle {
   year: number;
   color: string;
   customer: Customer;
+  km?: number;
 }

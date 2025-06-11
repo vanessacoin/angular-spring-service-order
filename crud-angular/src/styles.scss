@@ -15,8 +15,18 @@ $custom-theme: mat.define-light-theme((
 
 @include mat.all-component-themes($custom-theme);
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+
+.customer, .vehicle, .order {
+  margin: 2em 5em 2em 5em;
+}
 
 .customer mat-header-row {
   background-color: mat.get-color-from-palette($custom-app-primary);

@@ -1,29 +1,29 @@
+mat-card-content {
+  margin: 2em;
+}
+
+.informative-title-order h1 {
+  text-align: center;
+}
+
 .form-container {
   display: flex;
   gap: 16px;
-  margin-top: 20px;
-  margin-left: 20px;
 }
 
-.informative-title-order{
-  margin-top: 35px;
-  margin-left: 20px;
-}
-
-#sequential-order-number{
-  margin-left: 20px;
+#labor-cost, #total-order {
+  text-align: end;
+  align-items: end;
 }
 
 .button-container {
   display: flex;
   justify-content: flex-end;
   gap: 16px;
-  margin: 10px 30px 20px;
 }
 
 .generate-file-button {
-  padding: 8px 16px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;

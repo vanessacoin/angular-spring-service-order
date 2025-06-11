@@ -10,8 +10,8 @@ export interface Order {
   vehicleBrand: string;
   vehicleModel: string;
   vehiclePlate: string;
-  vehicleKm: string;
-  vehicleYear: string;
+  vehicleKm: number;
+  vehicleYear: number;
   vehicleColor: string;
   vehicleCustomerId: string;
   requestedServices: RequestedService[];

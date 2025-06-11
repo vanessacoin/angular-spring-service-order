@@ -90,8 +90,8 @@ export class OrderComponent implements OnInit {
     vehicleBrand: '',
     vehicleModel: '',
     vehiclePlate: '',
-    vehicleKm: '',
-    vehicleYear: '',
+    vehicleKm: 0,
+    vehicleYear: 0,
     vehicleColor: '',
     vehicleCustomerId: '',
     requestedServices: [],
@@ -148,14 +148,43 @@ export class OrderComponent implements OnInit {
   }
 
   submitOrder() {
+    if (!this.selectedCustomer || !this.selectedVehicle) {
+      console.error("Cliente ou veículo não selecionado!");
+      return;
+    }
+
+    this.order.vehicleKm = this.order.vehicleKm || 0;
+
+    this.order = {
+      ...this.order,
+      id: 1,
+      orderDate: this.orderDate,
+      customerId: this.selectedCustomer.id.toString(),
+      customerName: this.selectedCustomer.name,
+      customerCpf: this.selectedCustomer.cpf,
+      customerPhone: this.selectedCustomer.phone,
+      customerEmail: this.selectedCustomer.email,
+      vehicleId: this.selectedVehicle.id.toString(),
+      vehicleBrand: this.selectedVehicle.brand,
+      vehicleModel: this.selectedVehicle.model,
+      vehiclePlate: this.selectedVehicle.plate,
+      vehicleYear: this.selectedVehicle.year,
+      vehicleColor: this.selectedVehicle.color,
+      vehicleCustomerId: this.selectedVehicle.customer?.id.toString() || '',
+      requestedServices: this.requestedService,
+      usedItems: this.usedItems
+    };
+
+    console.log("Valor do KM antes de enviar:", this.order.vehicleKm);
+    console.log("Dados enviados para API:", this.order);
+
     this.orderService.saveOrder(this.order).subscribe(
       response => {
-        console.log('Order saved', response);
-        const orderId = response.id;
-        this.generateOrderPdf(orderId);
+        console.log('Ordem salva', response);
+        this.generateOrderPdf(response.id);
       },
       error => {
-        console.error('Error saving order', error);
+        console.error('Erro ao salvar ordem:', error);
       }
     );
   }
