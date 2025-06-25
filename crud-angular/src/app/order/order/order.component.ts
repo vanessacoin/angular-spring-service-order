@@ -199,7 +199,7 @@ export class OrderComponent implements OnInit {
       link.download = `order_${orderId}.pdf`;
       link.click();
 
-    window.URL.revokeObjectURL(url);
+      window.open(`/api/orders/${orderId}/pdf`, '_blank');
     });
   }
 
