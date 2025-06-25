@@ -1,8 +1,7 @@
 package com.vanessa.services;
 
-import org.springframework.stereotype.Service;
-
 import com.vanessa.repositories.UsedItemsRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UsedItemsService {

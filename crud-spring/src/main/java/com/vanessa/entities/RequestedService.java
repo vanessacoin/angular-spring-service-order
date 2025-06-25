@@ -1,7 +1,8 @@
 package com.vanessa.entities;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 public class RequestedService implements Serializable {
@@ -50,11 +51,14 @@ public class RequestedService implements Serializable {
         this.price = price;
     }
 
-    public ServiceOrder getOrder() {
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @JsonBackReference
+    public ServiceOrder getServiceOrder() {
         return serviceOrder;
     }
 
-    public void setOrder(ServiceOrder serviceOrder) {
+    public void setServiceOrder(ServiceOrder serviceOrder) {
         this.serviceOrder = serviceOrder;
     }
 }

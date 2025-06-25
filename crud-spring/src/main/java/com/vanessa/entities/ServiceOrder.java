@@ -1,14 +1,14 @@
 package com.vanessa.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Table(name = "service_orders")
@@ -42,8 +42,10 @@ public class ServiceOrder implements Serializable {
     private byte[] pdf;
 
     @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<RequestedService> requestedServices;
 
     @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<UsedItems> usedItems;
 }

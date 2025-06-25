@@ -23,11 +23,21 @@ public class OrderService {
 
     public ServiceOrder createOrder(ServiceOrder order) {
         System.out.println("Recebendo ordem: " + order);
+
         if (order.getCustomerId() == null || order.getVehicleId() == null) {
             throw new RuntimeException("Cliente e veículo são obrigatórios");
         }
-        return orderRepository.save(order);
+        if (order.getRequestedServices() != null) {
+        order.getRequestedServices().forEach(rs -> rs.setServiceOrder(order));
     }
+
+
+    if (order.getUsedItems() != null) {
+        order.getUsedItems().forEach(item -> item.setOrder(order));
+    }
+
+    return orderRepository.save(order);
+}
 
     public ServiceOrder getOrderById(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));

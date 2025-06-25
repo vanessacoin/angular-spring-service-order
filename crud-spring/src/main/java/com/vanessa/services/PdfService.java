@@ -1,48 +1,114 @@
 package com.vanessa.services;
 
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.*;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import com.vanessa.entities.RequestedService;
 import com.vanessa.entities.ServiceOrder;
-
+import com.vanessa.entities.UsedItems;
 import org.springframework.stereotype.Service;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class PdfService {
-    
-     public byte[] generateOrderPdf(ServiceOrder serviceOrder) throws IOException {
+
+    public byte[] generateOrderPdf(ServiceOrder order) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
+        System.out.println("Serviços recebidos: " + order.getRequestedServices());
+        System.out.println("Itens utilizados: " + order.getUsedItems());
+
         try {
-            // Inicializa o PdfWriter e PdfDocument
             PdfWriter writer = new PdfWriter(baos);
             PdfDocument pdfDoc = new PdfDocument(writer);
             Document document = new Document(pdfDoc);
 
-            // Adiciona conteúdo ao PDF
+            document.add(new Paragraph("Ordem de Serviço")
+                    .setBold()
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(20));
 
-            document.add(new Paragraph("Order Details"));
-            //document.add(new Paragraph("Order ID: " + serviceOrder.getId()));
-            //document.add(new Paragraph("Order Date: " + order.getOrderDate().toString()));
-            
-            // Adicione outros detalhes da ordem conforme necessário
-            // Exemplo de como adicionar mais conteúdo
+            document.add(new Paragraph("Dados do Cliente").setBold());
+            document.add(new Paragraph("Nome: " + order.getCustomerName()));
+            document.add(new Paragraph("CPF: " + order.getCustomerCpf()));
+            document.add(new Paragraph("Telefone: " + order.getCustomerPhone()));
+            document.add(new Paragraph("Email: " + order.getCustomerEmail()));
+            document.add(new Paragraph("ID do Cliente: " + order.getCustomerId()));
 
-            //document.add(new Paragraph("Customer: " + order.getCustomerName()));
-            //document.add(new Paragraph("Vehicle: " + order.getVehicleModel()));
-            
-            // Se houver uma lista de serviços ou itens, adicione-os aqui
+            document.add(new Paragraph("\n"));
 
-            // Fecha o documento
+            document.add(new Paragraph("Dados do Veículo").setBold());
+            document.add(new Paragraph("Marca: " + order.getVehicleBrand()));
+            document.add(new Paragraph("Modelo: " + order.getVehicleModel()));
+            document.add(new Paragraph("Placa: " + order.getVehiclePlate()));
+            document.add(new Paragraph("KM: " + order.getVehicleKm()));
+            document.add(new Paragraph("Ano: " + order.getVehicleYear()));
+            document.add(new Paragraph("Cor: " + order.getVehicleColor()));
+            document.add(new Paragraph("ID do Veículo: " + order.getVehicleId()));
+            document.add(new Paragraph("ID Cliente no Veículo: " + order.getVehicleCustomerId()));
+
+            document.add(new Paragraph("\n"));
+
+            if (order.getOrderDate() != null) {
+                String formattedDate = DateTimeFormatter
+                        .ofPattern("dd/MM/yyyy HH:mm")
+                        .withZone(ZoneId.systemDefault())
+                        .format(order.getOrderDate());
+                document.add(new Paragraph("Data da Geracao da Ordem: " + formattedDate));
+            }
+
+            document.add(new Paragraph("\n"));
+
+            if (order.getRequestedServices() != null && !order.getRequestedServices().isEmpty()) {
+                document.add(new Paragraph("Serviços Solicitados").setBold());
+
+                Table serviceTable = new Table(UnitValue.createPercentArray(new float[]{1, 4, 2}))
+                        .useAllAvailableWidth();
+                serviceTable.addHeaderCell("ID");
+                serviceTable.addHeaderCell("Descrição");
+                serviceTable.addHeaderCell("Preço");
+
+                for (RequestedService rs : order.getRequestedServices()) {
+                    serviceTable.addCell(String.valueOf(rs.getId()));
+                    serviceTable.addCell(rs.getDescription());
+                    serviceTable.addCell("R$ " + rs.getPrice());
+                }
+
+                document.add(serviceTable);
+                document.add(new Paragraph("\n"));
+            }
+            if (order.getUsedItems() != null && !order.getUsedItems().isEmpty()) {
+                document.add(new Paragraph("Itens Utilizados").setBold());
+
+                Table itemsTable = new Table(UnitValue.createPercentArray(new float[]{4, 2, 2, 2}))
+                        .useAllAvailableWidth();
+                itemsTable.addHeaderCell("Descrição");
+                itemsTable.addHeaderCell("Quantidade");
+                itemsTable.addHeaderCell("Preço Unitário");
+                itemsTable.addHeaderCell("Total");
+
+                for (UsedItems item : order.getUsedItems()) {
+                    itemsTable.addCell(item.getDescription());
+                    itemsTable.addCell(String.valueOf(item.getTotalQuantity()));
+                    itemsTable.addCell("R$ " + item.getUnitPrice());
+                    itemsTable.addCell("R$ " + item.getAmount());
+                }
+
+                document.add(itemsTable);
+            }
+
             document.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-            throw new IOException("Failed to generate PDF", e);
+            throw new IOException("Erro ao gerar PDF da ordem", e);
         }
 
         return baos.toByteArray();

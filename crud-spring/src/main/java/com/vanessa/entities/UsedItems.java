@@ -1,11 +1,11 @@
 package com.vanessa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 
 @Entity
 
@@ -23,6 +23,7 @@ public class UsedItems implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private ServiceOrder serviceOrder;
 
     // Getters and Setters
@@ -80,5 +81,9 @@ public class UsedItems implements Serializable {
 
         this.amount = quantity.multiply(price).setScale(2, RoundingMode.HALF_UP);
         return amount;
+    }
+
+    public void setOrder(ServiceOrder order) {
+        this.serviceOrder = order;
     }
 }
