@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "service_orders")
@@ -39,4 +40,10 @@ public class ServiceOrder implements Serializable {
 
     @Lob
     private byte[] pdf;
+
+    @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RequestedService> requestedServices;
+
+    @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsedItems> usedItems;
 }

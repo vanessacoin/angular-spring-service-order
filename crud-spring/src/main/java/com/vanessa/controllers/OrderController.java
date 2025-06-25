@@ -17,8 +17,9 @@ public class OrderController {
 
     private PdfService pdfService; 
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, PdfService pdfService) {
         this.orderService = orderService;
+        this.pdfService = pdfService;
     }
 
     @PostMapping

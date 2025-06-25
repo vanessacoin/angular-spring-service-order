@@ -18,7 +18,6 @@ public class RequestedService implements Serializable {
     @JoinColumn(name = "order_id")
     private ServiceOrder serviceOrder;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

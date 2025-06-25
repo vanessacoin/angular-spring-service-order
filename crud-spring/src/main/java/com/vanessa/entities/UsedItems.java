@@ -19,8 +19,11 @@ public class UsedItems implements Serializable {
     private float unitPrice;
     @Digits(integer = 10, fraction = 2)
     private BigDecimal amount;
-    @Column(name = "order_id")
-    private ServiceOrder order;
+
+    
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private ServiceOrder serviceOrder;
 
     // Getters and Setters
     public Long getId() {
@@ -63,12 +66,12 @@ public class UsedItems implements Serializable {
         this.amount = amount;
     }
 
-    public ServiceOrder getOrder() {
-        return order;
+    public ServiceOrder getserviceOrder() {
+        return serviceOrder;
     }
 
-    public void setOrder(ServiceOrder order) {
-        this.order = order;
+    public void setserviceOrder(ServiceOrder order) {
+        this.serviceOrder = order;
     }
 
     public BigDecimal totalAmount(int totalQuantity, float unitPrice) {
