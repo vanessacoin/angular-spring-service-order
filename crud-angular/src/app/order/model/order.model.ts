@@ -1,3 +1,6 @@
+import { RequestedService } from "../../requested-service/requested-service/requested-service.component";
+import { UsedItem } from "../../used-items/used-items/used-items.component";
+
 export interface Order {
   id: number;
   orderDate: Date;
@@ -16,13 +19,6 @@ export interface Order {
   vehicleCustomerId: string;
   requestedServices: RequestedService[];
   usedItems: UsedItem[];
-}
-
-// adicionar as interfaces para RequestedService e UsedItem, se necessário
-export interface RequestedService {
-  // Definição dos campos do serviço solicitado
-}
-
-export interface UsedItem {
-  // Definição dos campos dos itens usados
+  laborCost: number;
+  totalOrder: number;
 }

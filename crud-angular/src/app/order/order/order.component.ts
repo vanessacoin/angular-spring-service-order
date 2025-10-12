@@ -72,10 +72,10 @@ export class OrderComponent implements OnInit {
   usedItems: UsedItem[] = [];
   idItemCounter: number = 1;
 
-  laborCost = 0;
-  totalCost = 0;
-  totalItems = 0;
-  totalOrder = 0;
+  laborCost: number = 0;
+  totalCost: number = 0;
+  totalItems: number = 0;
+  totalOrder: number = 0;
   totalUsedItems: number = 0;
 
   order: Order = {
@@ -95,7 +95,9 @@ export class OrderComponent implements OnInit {
     vehicleColor: '',
     vehicleCustomerId: '',
     requestedServices: [],
-    usedItems: []
+    usedItems: [],
+    laborCost: 0,
+    totalOrder: 0
   }
 
   constructor(
@@ -123,6 +125,12 @@ export class OrderComponent implements OnInit {
     this.updateTotalOrder();
   }
 
+  recalcTotal() {
+  const mo = Number(this.laborCost) || 0;
+  const itens = Number(this.totalUsedItems) || 0;
+  this.totalOrder = mo + itens;
+}
+
   updateTotalCost(totalUsedItems: number): void {
     this.totalUsedItems = totalUsedItems;
     this.updateTotalOrder();
@@ -149,7 +157,7 @@ export class OrderComponent implements OnInit {
 
   submitOrder() {
     if (!this.selectedCustomer || !this.selectedVehicle) {
-      console.error("Cliente ou veículo não selecionado!");
+      console.error("Cliente e/ou veículo não selecionado(s)!");
       return;
     }
 
@@ -157,7 +165,6 @@ export class OrderComponent implements OnInit {
 
     this.order = {
       ...this.order,
-      id: 1,
       orderDate: this.orderDate,
       customerId: this.selectedCustomer.id.toString(),
       customerName: this.selectedCustomer.name,
@@ -172,7 +179,9 @@ export class OrderComponent implements OnInit {
       vehicleColor: this.selectedVehicle.color,
       vehicleCustomerId: this.selectedVehicle.customer?.id.toString() || '',
       requestedServices: this.requestedService,
-      usedItems: this.usedItems
+      usedItems: this.usedItems,
+      laborCost: this.laborCost,
+      totalOrder: this.totalOrder
     };
 
     console.log("Valor do KM antes de enviar:", this.order.vehicleKm);

@@ -130,7 +130,8 @@
           <td>
             <mat-form-field>
               <mat-label>Valor mão de obra</mat-label>
-              <input matInput type="number" (input)="onLaborCostChange($event)" [value]="laborCost || 0" placeholder="0" />
+              <input matInput type="number" name="laborCost" [(ngModel)]="laborCost" (ngModelChange)="recalcTotal()"
+                placeholder="0" />
             </mat-form-field>
 
           </td>

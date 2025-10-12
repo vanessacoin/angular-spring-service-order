@@ -35,24 +35,21 @@ public class PdfService {
                     .setTextAlignment(TextAlignment.CENTER)
                     .setMarginBottom(20));
 
-            document.add(new Paragraph("Dados do Cliente").setBold());
+            document.add(new Paragraph("Dados do Cliente " + order.getCustomerId()).setBold());
             document.add(new Paragraph("Nome: " + order.getCustomerName()));
             document.add(new Paragraph("CPF: " + order.getCustomerCpf()));
             document.add(new Paragraph("Telefone: " + order.getCustomerPhone()));
             document.add(new Paragraph("Email: " + order.getCustomerEmail()));
-            document.add(new Paragraph("ID do Cliente: " + order.getCustomerId()));
 
             document.add(new Paragraph("\n"));
 
-            document.add(new Paragraph("Dados do Veículo").setBold());
+            document.add(new Paragraph("Dados do Veículo " + order.getVehicleId()).setBold());
             document.add(new Paragraph("Marca: " + order.getVehicleBrand()));
             document.add(new Paragraph("Modelo: " + order.getVehicleModel()));
             document.add(new Paragraph("Placa: " + order.getVehiclePlate()));
             document.add(new Paragraph("KM: " + order.getVehicleKm()));
             document.add(new Paragraph("Ano: " + order.getVehicleYear()));
             document.add(new Paragraph("Cor: " + order.getVehicleColor()));
-            document.add(new Paragraph("ID do Veículo: " + order.getVehicleId()));
-            document.add(new Paragraph("ID Cliente no Veículo: " + order.getVehicleCustomerId()));
 
             document.add(new Paragraph("\n"));
 
@@ -61,7 +58,7 @@ public class PdfService {
                         .ofPattern("dd/MM/yyyy HH:mm")
                         .withZone(ZoneId.systemDefault())
                         .format(order.getOrderDate());
-                document.add(new Paragraph("Data da Geracao da Ordem: " + formattedDate));
+                document.add(new Paragraph("Data e Hora da Geracao da Ordem: " + formattedDate));
             }
 
             document.add(new Paragraph("\n"));
@@ -71,14 +68,10 @@ public class PdfService {
 
                 Table serviceTable = new Table(UnitValue.createPercentArray(new float[]{1, 4, 2}))
                         .useAllAvailableWidth();
-                serviceTable.addHeaderCell("ID");
                 serviceTable.addHeaderCell("Descrição");
-                serviceTable.addHeaderCell("Preço");
 
                 for (RequestedService rs : order.getRequestedServices()) {
-                    serviceTable.addCell(String.valueOf(rs.getId()));
                     serviceTable.addCell(rs.getDescription());
-                    serviceTable.addCell("R$ " + rs.getPrice());
                 }
 
                 document.add(serviceTable);
@@ -103,6 +96,10 @@ public class PdfService {
 
                 document.add(itemsTable);
             }
+
+            document.add(new Paragraph("\n"));
+
+            document.add(new Paragraph("Mao de Obra: " + order.getLaborCost()).setBold());
 
             document.close();
 

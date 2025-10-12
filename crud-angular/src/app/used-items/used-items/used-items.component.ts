@@ -19,8 +19,8 @@ import { UsedItemsService } from '../services/used-items.service';
 export interface UsedItem {
   id: number;
   description: string;
-  total_quantity: number;
-  unit_price: number;
+  totalQuantity: number;
+  unitPrice: number;
   amount: number;
 }
 
@@ -74,8 +74,8 @@ export class UsedItemsComponent implements OnInit {
           this.addUsedItems({
             id: this.idItemCounter++,
             description,
-            total_quantity: totalQuantity,
-            unit_price: unitPrice,
+            totalQuantity: totalQuantity,
+            unitPrice: unitPrice,
             amount: calculatedAmount
           });
         },
@@ -86,18 +86,18 @@ export class UsedItemsComponent implements OnInit {
 
   onEditUsedItems(item: UsedItem) {
     const description = prompt('Editar Descrição do Item:', item.description);
-    const totalQuantityString = prompt('Editar Quantidade Total:', item.total_quantity.toString());
-    const unitPriceString = prompt('Editar Preço Unitário:', item.unit_price.toString());
+    const totalQuantityString = prompt('Editar Quantidade Total:', item.totalQuantity.toString());
+    const unitPriceString = prompt('Editar Preço Unitário:', item.unitPrice.toString());
 
-    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString.replace(',', '.')) : item.total_quantity;
-    const unitPrice = unitPriceString ? parseFloat(unitPriceString.replace(',', '.')) : item.unit_price;
+    const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString.replace(',', '.')) : item.totalQuantity;
+    const unitPrice = unitPriceString ? parseFloat(unitPriceString.replace(',', '.')) : item.unitPrice;
 
     if (description && totalQuantity > 0 && unitPrice > 0) {
       this.usedItemsService.calculateAmount(totalQuantity, unitPrice).subscribe(
         (calculatedAmount) => {
           item.description = description;
-          item.total_quantity = totalQuantity;
-          item.unit_price = unitPrice;
+          item.totalQuantity = totalQuantity;
+          item.unitPrice = unitPrice;
           item.amount = calculatedAmount;
           this.updateTableData();
         },

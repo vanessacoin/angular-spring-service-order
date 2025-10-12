@@ -15,12 +15,12 @@
 
         <ng-container matColumnDef="total_quantity">
           <th mat-header-cell *matHeaderCellDef>Quantidade Total</th>
-          <td mat-cell *matCellDef="let item">{{ item.total_quantity }}</td>
+          <td mat-cell *matCellDef="let item">{{ item.totalQuantity }}</td>
         </ng-container>
 
         <ng-container matColumnDef="unit_price">
           <th mat-header-cell *matHeaderCellDef>Preço Unitário</th>
-          <td mat-cell *matCellDef="let item">{{ item.unit_price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+          <td mat-cell *matCellDef="let item">{{ item.unitPrice | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="amount">

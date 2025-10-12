@@ -3,6 +3,7 @@ package com.vanessa.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class ServiceOrder implements Serializable {
     private Integer vehicleYear;
     private String vehicleColor;
     private Long vehicleCustomerId;
+    private BigDecimal laborCost;
 
     @Lob
     private byte[] pdf;
