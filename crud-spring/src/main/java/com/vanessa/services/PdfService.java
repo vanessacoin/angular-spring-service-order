@@ -35,7 +35,7 @@ public class PdfService {
                     .setTextAlignment(TextAlignment.CENTER)
                     .setMarginBottom(20));
 
-            document.add(new Paragraph("Dados do Cliente " + order.getCustomerId()).setBold());
+            document.add(new Paragraph("Dados do Cliente").setBold());
             document.add(new Paragraph("Nome: " + order.getCustomerName()));
             document.add(new Paragraph("CPF: " + order.getCustomerCpf()));
             document.add(new Paragraph("Telefone: " + order.getCustomerPhone()));
@@ -43,7 +43,7 @@ public class PdfService {
 
             document.add(new Paragraph("\n"));
 
-            document.add(new Paragraph("Dados do Veículo " + order.getVehicleId()).setBold());
+            document.add(new Paragraph("Dados do Veículo").setBold());
             document.add(new Paragraph("Marca: " + order.getVehicleBrand()));
             document.add(new Paragraph("Modelo: " + order.getVehicleModel()));
             document.add(new Paragraph("Placa: " + order.getVehiclePlate()));
@@ -55,10 +55,10 @@ public class PdfService {
 
             if (order.getOrderDate() != null) {
                 String formattedDate = DateTimeFormatter
-                        .ofPattern("dd/MM/yyyy HH:mm")
+                        .ofPattern("dd/MM/yyyy")
                         .withZone(ZoneId.systemDefault())
                         .format(order.getOrderDate());
-                document.add(new Paragraph("Data e Hora da Geracao da Ordem: " + formattedDate));
+                document.add(new Paragraph("Data: " + formattedDate));
             }
 
             document.add(new Paragraph("\n"));
@@ -66,7 +66,7 @@ public class PdfService {
             if (order.getRequestedServices() != null && !order.getRequestedServices().isEmpty()) {
                 document.add(new Paragraph("Serviços Solicitados").setBold());
 
-                Table serviceTable = new Table(UnitValue.createPercentArray(new float[]{1, 4, 2}))
+                Table serviceTable = new Table(UnitValue.createPercentArray(new float[]{1}))
                         .useAllAvailableWidth();
                 serviceTable.addHeaderCell("Descrição");
 
@@ -100,6 +100,8 @@ public class PdfService {
             document.add(new Paragraph("\n"));
 
             document.add(new Paragraph("Mao de Obra: " + order.getLaborCost()).setBold());
+
+            document.add(new Paragraph("Total: " + order.getTotalOrder()).setBold());
 
             document.close();
 
