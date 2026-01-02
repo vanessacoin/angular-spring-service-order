@@ -2,20 +2,11 @@
   "configurations": [
     {
       "type": "java",
-      "name": "ServiceOrderApplication",
+      "name": "Spring Boot - CrudSpringApplication",
       "request": "launch",
-      "mainClass": "com.vanessa.ServiceOrderApplication",
-      "projectName": "crud-spring"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot-CrudSpringApplication<crud-spring>",
-      "request": "launch",
-      "cwd": "crud-angular-spring",
       "mainClass": "com.vanessa.CrudSpringApplication",
       "projectName": "crud-spring",
-      "args": "",
-      "envFile": "/crud-spring/.env"
+      "cwd": "${workspaceFolder}/crud-spring"
     }
   ]
 }
