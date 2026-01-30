@@ -1,8 +1,11 @@
 package com.vanessa.controllers;
 
+import com.vanessa.dto.CustomerRequestDTO;
 import com.vanessa.entities.Customer;
 import com.vanessa.resources.exceptions.ResourceNotFoundException;
 import com.vanessa.services.CustomerService;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -40,15 +43,15 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
-        Customer savedCustomer = customerService.saveCustomer(customer);
+    public ResponseEntity<Customer> saveCustomer(@Valid @RequestBody CustomerRequestDTO dto) {
+        Customer savedCustomer = customerService.saveCustomer(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerRequestDTO dto) {
         try {
-            Customer updateCustomer = customerService.updateCustomer(id, updatedCustomer);
+            Customer updateCustomer = customerService.updateCustomer(id, dto);
             return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

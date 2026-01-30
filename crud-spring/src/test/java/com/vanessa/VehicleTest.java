@@ -54,14 +54,14 @@ class VehicleTest {
         vehicle.setBrand("Toyota");
         vehicle.setModel("Supra mk4");
         vehicle.setPlate("JAR9E10");
-        vehicle.setYear(1994);
+        vehicle.setVehicleYear(1994);
         vehicle.setColor("Branco");
         vehicle.setCustomer(customer);
 
         assertEquals("Toyota", vehicle.getBrand());
         assertEquals("Supra mk4", vehicle.getModel());
         assertEquals("JAR9E10", vehicle.getPlate());
-        assertEquals(1994, vehicle.getYear());
+        assertEquals(1994, vehicle.getVehicleYear());
         assertEquals("Branco", vehicle.getColor());
         assertEquals(customer, vehicle.getCustomer());
     }

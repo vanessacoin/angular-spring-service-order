@@ -1,0 +1,1 @@
+import{Hc as m,Z as o,ia as r}from"./chunk-VLTS26PK.js";var f=(()=>{let t=class t{};t.\u0275fac=function(s){return new(s||t)},t.\u0275mod=r({type:t}),t.\u0275inj=o({imports:[m]});let i=t;return i})();export{f as SequentialModule};

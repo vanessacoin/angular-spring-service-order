@@ -5,7 +5,7 @@ mat-card {
 }
 
 mat-card-content :first-child {
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .full-width {
@@ -23,4 +23,14 @@ mat-card-content :first-child {
 
 .actions-center {
   justify-content: center;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.field-row mat-form-field {
+  flex: 1;
 }

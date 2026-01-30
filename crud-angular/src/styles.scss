@@ -5,7 +5,7 @@ $custom-app-primary: mat.define-palette(mat.$green-palette);
 $custom-app-secondaty: mat.define-palette(mat.$light-green-palette, A200, A400, 700);
 $custom-app-warn: mat.define-palette(mat.$red-palette);
 
-$custom-theme: mat.define-light-theme((
+$custom-theme: mat.define-dark-theme((
   color: (
     primary: $custom-app-primary,
     accent: $custom-app-secondaty,
@@ -22,6 +22,7 @@ html, body {
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
+  color: #fff;
 }
 
 .customer, .vehicle, .order {
@@ -35,5 +36,10 @@ body {
 
 .vehicle mat-header-row {
   background-color: mat.get-color-from-palette($custom-app-primary);
+  color: #fff;
+}
+
+mat-card {
+  background: #2a3323;
   color: #fff;
 }

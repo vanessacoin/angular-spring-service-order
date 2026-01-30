@@ -46,7 +46,7 @@ public class VehicleService {
             existingVehicle.setBrand(updatedVehicle.getBrand());
             existingVehicle.setModel(updatedVehicle.getModel());
             existingVehicle.setPlate(updatedVehicle.getPlate());
-            existingVehicle.setYear(updatedVehicle.getYear());
+            existingVehicle.setVehicleYear(updatedVehicle.getVehicleYear());
             existingVehicle.setColor(updatedVehicle.getColor());
             existingVehicle.setCustomer(updatedVehicle.getCustomer());
             return vehicleRepository.save(existingVehicle);

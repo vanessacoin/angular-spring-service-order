@@ -43,8 +43,9 @@ public class Vehicle implements Serializable {
     private String plate;
 
     @NotNull
-    @Column(length = 4, columnDefinition = "YEAR", nullable = false)
-    private int year;
+    @Column(nullable = false)
+private Integer vehicleYear;
+
 
     private String color;
 
@@ -61,7 +62,7 @@ public class Vehicle implements Serializable {
         this.brand = brand;
         this.model = model;
         this.plate = plate;
-        this.year = year;
+        this.vehicleYear = year;
         this.color = color;
         this.customer = customer ;
     }
@@ -98,13 +99,14 @@ public class Vehicle implements Serializable {
         this.plate = plate;
     }
 
-    public int getYear() {
-        return year;
-    }
+    public Integer getVehicleYear() {
+    return vehicleYear;
+}
 
-    public void setYear(int year) {
-        this.year = year;
-    }
+public void setVehicleYear(Integer vehicleYear) {
+    this.vehicleYear = vehicleYear;
+}
+
 
     public String getColor() {
         return color;

@@ -29,13 +29,13 @@ public class Customer implements Serializable {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = true, unique = true)
     private String cpf;
 
-    @NotNull
+    @Column(nullable = true)
     private String phone;
 
-    @Email
+    @Column(nullable = true)
     private String email;
 
     @NotNull

@@ -5,25 +5,56 @@
   <mat-card-content>
     <form [formGroup]="form">
       <mat-form-field class="full-width">
-        <input matInput placeholder="Nome" formControlName="name">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name">
+        <mat-error>
+          <ng-container *ngIf="form.get('name')?.hasError('required')">Nome obrigatório</ng-container>
+          <ng-container *ngIf="form.get('name')?.hasError('minlength')">Nome deve ter no mínimo 2
+            caracteres</ng-container>
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="CPF" formControlName="cpf">
-      </mat-form-field>
+      <div class="field-row">
+        <mat-checkbox formControlName="hasCpf">CPF</mat-checkbox>
+        <mat-form-field class="full-width">
+          <mat-label>CPF</mat-label>
+          <input matInput placeholder="999.999.999-99" formControlName="cpf" mask="000.000.000-00"
+            [dropSpecialCharacters]="true" />
+          <mat-error *ngIf="form.get('cpf')?.hasError('required')">CPF obrigatório</mat-error>
+          <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">CPF inválido</mat-error>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Phone" formControlName="phone">
-      </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Email" formControlName="email">
-      </mat-form-field>
+      <div class="field-row">
+        <mat-checkbox formControlName="hasPhone">Telefone</mat-checkbox>
+        <mat-form-field class="full-width">
+          <mat-label>Telefone</mat-label>
+          <input matInput placeholder="(99) 9 9999-9999" formControlName="phone" mask="(00) 0 0000-0000"
+            [dropSpecialCharacters]="true" />
+          <mat-error *ngIf="form.get('phone')?.hasError('required')">Telefone obrigatório</mat-error>
+          <mat-error *ngIf="form.get('phone')?.hasError('pattern')">Use (99) 9 9999-9999</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-checkbox formControlName="hasEmail">E-mail</mat-checkbox>
+        <mat-form-field class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="form.get('email')?.hasError('required')">Email obrigatório</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Email inválido</mat-error>
+        </mat-form-field>
+      </div>
+
     </form>
   </mat-card-content>
 
   <mat-card-actions class="actions-center">
-    <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+    <button mat-raised-button color="primary" (click)="onSave()">
+      Salvar
+    </button>
+
     <button mat-raised-button color="warn" class="btn-space" (click)="onCancel()">Cancelar</button>
   </mat-card-actions>
 
