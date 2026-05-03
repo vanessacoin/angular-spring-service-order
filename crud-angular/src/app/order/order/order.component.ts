@@ -175,7 +175,7 @@ export class OrderComponent implements OnInit {
       vehicleBrand: this.selectedVehicle.brand,
       vehicleModel: this.selectedVehicle.model,
       vehiclePlate: this.selectedVehicle.plate,
-      vehicleYear: this.selectedVehicle.year,
+      vehicleYear: this.selectedVehicle.vehicleYear,
       vehicleColor: this.selectedVehicle.color,
       vehicleCustomerId: this.selectedVehicle.customer?.id.toString() || '',
       requestedServices: this.requestedService,

@@ -3,3 +3,7 @@
 # Maven / Java build
 target/
 **/target/
+
+# Arquivos privados
+crud-spring/src/main/resources/static/images/logo.png
+crud-spring/src/main/resources/application-local.properties

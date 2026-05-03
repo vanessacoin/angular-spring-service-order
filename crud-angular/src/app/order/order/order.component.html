@@ -89,7 +89,7 @@
 
           <mat-form-field appearance="fill">
             <mat-label>Ano</mat-label>
-            <input matInput [value]="selectedVehicle?.year" disabled>
+            <input matInput [value]="selectedVehicle?.vehicleYear" disabled>
           </mat-form-field>
 
           <mat-form-field appearance="fill">
@@ -145,9 +145,6 @@
       </div>
 
       <div class="button-container">
-        <button class="generate-file-button" mat-flat-button color="accent">
-          Gerar Orçamento</button>
-
         <button class="generate-file-button" mat-flat-button color="accent" (click)="submitOrder()">
           Gerar Ordem de Serviço</button>
       </div>

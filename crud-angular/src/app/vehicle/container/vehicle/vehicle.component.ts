@@ -43,7 +43,7 @@ export class VehicleComponent implements OnInit {
   vehiclesDataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>([]);
 
   vehicles$: Observable<Vehicle[]>;
-  displayedColumns: string[] = ['brand', 'model', 'plate', 'year', 'color', 'customerName', 'actions']
+  displayedColumns: string[] = ['brand', 'model', 'plate', 'vehicleYear', 'color', 'customerName', 'actions']
 
   constructor(
     private readonly service: VehicleService,
@@ -80,7 +80,7 @@ export class VehicleComponent implements OnInit {
         brand: vehicle.brand,
         model: vehicle.model,
         plate: vehicle.plate,
-        year: vehicle.year,
+        vehicleYear: vehicle.vehicleYear,
         color: vehicle.color,
         customer: vehicle.customer.id }
       });

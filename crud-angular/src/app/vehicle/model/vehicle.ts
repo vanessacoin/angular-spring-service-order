@@ -5,7 +5,7 @@ export interface Vehicle {
   brand: string;
   model: string;
   plate: string;
-  year: number;
+  vehicleYear: number;
   color: string;
   customer: Customer;
   km?: number;

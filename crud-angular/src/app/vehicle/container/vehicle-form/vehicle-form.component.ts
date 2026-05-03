@@ -53,7 +53,7 @@ export class VehicleFormComponent implements OnInit{
         brand: [null],
         model: [null],
         plate: [null],
-        year:[null],
+        vehicleYear:[null],
         color: [null],
         customer: [null],
       })
@@ -73,7 +73,7 @@ export class VehicleFormComponent implements OnInit{
           brand: params['brand'],
           model: params['model'],
           plate: params['plate'],
-          year: params['year'],
+          vehicleYear: params['vehicleYear'],
           color: params['color'],
           customer: +params['customer']
         });
@@ -87,6 +87,7 @@ export class VehicleFormComponent implements OnInit{
 
       const vehicleData = {
         ...this.form.value,
+        vehicleYear: Number(this.form.value.vehicleYear),
         customer: { id: this.form.value.customer }
       };
 
