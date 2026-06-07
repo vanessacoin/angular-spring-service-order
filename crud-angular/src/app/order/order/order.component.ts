@@ -17,7 +17,6 @@ import {
   RequestedService,
   RequestedServiceComponent,
 } from '../../requested-service/requested-service/requested-service.component';
-import { SequentialComponent } from '../../sequential/sequential.component';
 import { UsedItem, UsedItemsComponent } from '../../used-items/used-items/used-items.component';
 import { Order } from '../model/order.model';
 import { Customer } from './../../customer/model/customer';
@@ -35,7 +34,6 @@ import { OrderService } from '../services/order.service';
   styleUrl: './order.component.scss',
   providers: [provideNativeDateAdapter(), CustomerService, VehicleService],
   imports: [MatFormField,
-    SequentialComponent,
     CommonModule,
     MatFormFieldModule,
     MatDatepickerModule,
@@ -205,7 +203,7 @@ export class OrderComponent implements OnInit {
       const downloadURL = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadURL;
-      link.download = `order_${orderId}.pdf`;
+      link.download = `ordem_servico_${orderId}.pdf`;
       link.click();
 
       window.open(`/api/orders/${orderId}/pdf`, '_blank');

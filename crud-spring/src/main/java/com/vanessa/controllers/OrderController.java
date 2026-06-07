@@ -4,6 +4,8 @@ import com.vanessa.entities.ServiceOrder;
 import com.vanessa.resources.exceptions.ResourceNotFoundException;
 import com.vanessa.services.OrderService;
 import com.vanessa.services.PdfService;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ public class OrderController {
 
     private OrderService orderService;
 
-    private PdfService pdfService; 
+    private PdfService pdfService;
 
     public OrderController(OrderService orderService, PdfService pdfService) {
         this.orderService = orderService;
@@ -31,17 +33,21 @@ public class OrderController {
     @GetMapping("/{id}/pdf")
     public ResponseEntity<byte[]> generateOrderPdf(@PathVariable("id") Long id) {
         ServiceOrder serviceOrder = orderService.getOrderById(id);
-    if (serviceOrder == null) {
-        throw new ResourceNotFoundException("Order not found with id " + id);
-    }
+        if (serviceOrder == null) {
+            throw new ResourceNotFoundException("Order not found with id " + id);
+        }
 
-    try {
-        byte[] pdfBytes = pdfService.generateOrderPdf(serviceOrder);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfBytes);
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try {
+            byte[] pdfBytes = pdfService.generateOrderPdf(serviceOrder);
+            String fileName = "ordem-servico-" + id + ".pdf";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                    .body(pdfBytes);
+                    
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-}
 }

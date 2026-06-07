@@ -49,6 +49,7 @@ public class ServiceOrder implements Serializable {
     private Long vehicleCustomerId;
     private BigDecimal laborCost;
     private BigDecimal totalOrder;
+    private String orderNumber;
 
     @Lob
     private byte[] pdf;

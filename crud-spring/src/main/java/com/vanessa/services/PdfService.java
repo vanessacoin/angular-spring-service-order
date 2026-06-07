@@ -8,10 +8,12 @@ import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
@@ -20,17 +22,19 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.vanessa.entities.RequestedService;
 import com.vanessa.entities.ServiceOrder;
 import com.vanessa.entities.UsedItems;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -38,8 +42,11 @@ import java.util.Locale;
 @Service
 public class PdfService {
 
-    @Value("${workshop.footer.text:}")
-    private String footerText;
+    @Value("${pdf.footer.line1:}")
+    private String footerLine1;
+
+    @Value("${pdf.footer.line2:}")
+    private String footerLine2;
 
     private static final Color GREEN = new DeviceRgb(5, 164, 80);
     private static final Color MUTED = new DeviceRgb(124, 124, 124);
@@ -54,19 +61,23 @@ public class PdfService {
         try {
             PdfWriter writer = new PdfWriter(baos);
             PdfDocument pdfDoc = new PdfDocument(writer);
+            pdfDoc.getDocumentInfo().setTitle("ordem-servico-" + order.getId());
+
             Document document = new Document(pdfDoc, PageSize.A4);
-            document.setMargins(32, 36, 55, 36);
+            document.setMargins(110, 36, 95, 36);
 
             PdfFont regular = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             PdfFont bold = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 
-            addHeader(document, order, regular, bold);
+            String orderNumber = buildOrderNumber(order);
+
             addCustomerInfo(document, order, regular, bold);
             addVehicleInfo(document, order, regular, bold);
             addRequestedServices(document, order, regular, bold);
             addUsedItems(document, order, regular, bold);
             addTotals(document, order, bold);
-            addFooter(document, pdfDoc, regular);
+
+            addHeaderAndFooterToAllPages(pdfDoc, order, regular, bold, orderNumber);
 
             document.close();
         } catch (Exception e) {
@@ -77,53 +88,133 @@ public class PdfService {
         return baos.toByteArray();
     }
 
-    private void addHeader(Document document, ServiceOrder order, PdfFont regular, PdfFont bold) {
-        Table header = new Table(UnitValue.createPercentArray(new float[] { 2, 3 }))
-                .useAllAvailableWidth()
-                .setMarginBottom(24);
+    private void addHeaderAndFooterToAllPages(
+            PdfDocument pdfDoc,
+            ServiceOrder order,
+            PdfFont regular,
+            PdfFont bold,
+            String orderNumber) {
 
-        Cell logoCell = new Cell()
-                .setBorder(Border.NO_BORDER)
-                .setPadding(0);
+        int totalPages = pdfDoc.getNumberOfPages();
 
-        Image logo = loadLogo();
+        for (int pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+            Rectangle pageSize = pdfDoc.getPage(pageNumber).getPageSize();
 
-        if (logo != null) {
-            logo.scaleToFit(180, 110);
-            logo.setHorizontalAlignment(HorizontalAlignment.LEFT);
-            logoCell.add(logo);
+            PdfCanvas pdfCanvas = new PdfCanvas(
+                    pdfDoc.getPage(pageNumber).newContentStreamAfter(),
+                    pdfDoc.getPage(pageNumber).getResources(),
+                    pdfDoc);
+
+            Canvas canvas = new Canvas(pdfCanvas, pdfDoc, pageSize);
+
+            float left = 36;
+            float right = pageSize.getRight() - 36;
+            float center = pageSize.getWidth() / 2;
+            float top = pageSize.getTop();
+            float bottom = pageSize.getBottom();
+
+            Image logo = loadLogo();
+
+            if (logo != null) {
+                logo.scaleToFit(145, 70);
+                logo.setFixedPosition(pageNumber, left, top - 85);
+                canvas.add(logo);
+            }
+
+            canvas.showTextAligned(
+                    new Paragraph("Ordem de Serviço")
+                            .setFont(bold)
+                            .setFontSize(18)
+                            .setFontColor(TEXT),
+                    right,
+                    top - 38,
+                    TextAlignment.RIGHT,
+                    VerticalAlignment.MIDDLE);
+
+            canvas.showTextAligned(
+                    new Paragraph("Ficha de atendimento")
+                            .setFont(regular)
+                            .setFontSize(10)
+                            .setFontColor(MUTED),
+                    right,
+                    top - 56,
+                    TextAlignment.RIGHT,
+                    VerticalAlignment.MIDDLE);
+
+            canvas.showTextAligned(
+                    new Paragraph("Data: " + formatDate(order))
+                            .setFont(regular)
+                            .setFontSize(10)
+                            .setFontColor(MUTED),
+                    right,
+                    top - 72,
+                    TextAlignment.RIGHT,
+                    VerticalAlignment.MIDDLE);
+
+            pdfCanvas
+                    .setStrokeColor(BORDER)
+                    .setLineWidth(0.5f)
+                    .moveTo(left, top - 100)
+                    .lineTo(right, top - 100)
+                    .stroke();
+
+            pdfCanvas
+                    .setStrokeColor(BORDER)
+                    .setLineWidth(0.5f)
+                    .moveTo(left, bottom + 86)
+                    .lineTo(right, bottom + 86)
+                    .stroke();
+
+            canvas.showTextAligned(
+                    new Paragraph("Número controle: " + orderNumber)
+                            .setFont(regular)
+                            .setFontSize(8)
+                            .setFontColor(MUTED),
+                    left,
+                    bottom + 68,
+                    TextAlignment.LEFT,
+                    VerticalAlignment.MIDDLE);
+
+            canvas.showTextAligned(
+                    new Paragraph("Página " + pageNumber + "/" + totalPages)
+                            .setFont(regular)
+                            .setFontSize(8)
+                            .setFontColor(MUTED),
+                    right,
+                    bottom + 68,
+                    TextAlignment.RIGHT,
+                    VerticalAlignment.MIDDLE);
+
+            if (footerLine1 != null && !footerLine1.trim().isEmpty()) {
+                canvas.showTextAligned(
+                        new Paragraph(footerLine1)
+                                .setFont(regular)
+                                .setFontSize(8)
+                                .setFontColor(MUTED),
+                        center,
+                        bottom + 34,
+                        TextAlignment.CENTER,
+                        VerticalAlignment.MIDDLE);
+            }
+
+            if (footerLine2 != null && !footerLine2.trim().isEmpty()) {
+                canvas.showTextAligned(
+                        new Paragraph(footerLine2)
+                                .setFont(regular)
+                                .setFontSize(8)
+                                .setFontColor(MUTED),
+                        center,
+                        bottom + 22,
+                        TextAlignment.CENTER,
+                        VerticalAlignment.MIDDLE);
+            }
+
+            canvas.close();
         }
-
-        Cell titleCell = new Cell()
-                .setBorder(Border.NO_BORDER)
-                .setTextAlignment(TextAlignment.RIGHT)
-                .setPadding(0);
-
-        titleCell.add(new Paragraph("Ordem de Serviço")
-                .setFont(bold)
-                .setFontSize(22)
-                .setFontColor(TEXT)
-                .setMarginBottom(4));
-
-        titleCell.add(new Paragraph("Ficha de atendimento")
-                .setFont(regular)
-                .setFontSize(10)
-                .setFontColor(MUTED));
-
-        titleCell.add(new Paragraph("Data: " + formatDate(order))
-                .setFont(regular)
-                .setFontSize(10)
-                .setFontColor(MUTED)
-                .setMarginTop(2));
-
-        header.addCell(logoCell);
-        header.addCell(titleCell);
-
-        document.add(header);
     }
 
     private void addCustomerInfo(Document document, ServiceOrder order, PdfFont regular, PdfFont bold) {
-        document.add(sectionTitle("Dados do cliente", bold));
+        document.add(sectionTitle("Cliente", bold));
 
         Table table = infoTable();
 
@@ -134,7 +225,7 @@ public class PdfService {
     }
 
     private void addVehicleInfo(Document document, ServiceOrder order, PdfFont regular, PdfFont bold) {
-        document.add(sectionTitle("Dados do veículo", bold));
+        document.add(sectionTitle("Veículo", bold));
 
         Table table = infoTable();
 
@@ -146,7 +237,7 @@ public class PdfService {
     }
 
     private void addRequestedServices(Document document, ServiceOrder order, PdfFont regular, PdfFont bold) {
-        document.add(sectionTitle("Serviços solicitados", bold));
+        document.add(sectionTitle("Serviços", bold));
 
         Table table = new Table(UnitValue.createPercentArray(new float[] { 1 }))
                 .useAllAvailableWidth();
@@ -165,7 +256,7 @@ public class PdfService {
     }
 
     private void addUsedItems(Document document, ServiceOrder order, PdfFont regular, PdfFont bold) {
-        document.add(sectionTitle("Itens utilizados", bold));
+        document.add(sectionTitle("Itens/Peças", bold));
 
         Table table = new Table(UnitValue.createPercentArray(new float[] { 4, 2, 2, 2 }))
                 .useAllAvailableWidth();
@@ -298,25 +389,6 @@ public class PdfService {
                 .setPadding(8);
     }
 
-    private void addFooter(Document document, PdfDocument pdfDoc, PdfFont regular) {
-    if (footerText == null || footerText.trim().isEmpty()) {
-        return;
-    }
-
-    int lastPage = pdfDoc.getNumberOfPages();
-
-    float left = 36;
-    float bottom = 20;
-    float width = PageSize.A4.getWidth() - 72;
-
-    document.add(new Paragraph(footerText)
-            .setFont(regular)
-            .setFontSize(8)
-            .setFontColor(MUTED)
-            .setTextAlignment(TextAlignment.CENTER)
-            .setFixedPosition(lastPage, left, bottom, width));
-}
-
     private String valueOrBlank(Object value) {
         if (value == null) {
             return "";
@@ -386,5 +458,12 @@ public class PdfService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private String buildOrderNumber(ServiceOrder order) {
+        String date = LocalDate.now(ZoneId.of("America/Sao_Paulo"))
+                .format(DateTimeFormatter.BASIC_ISO_DATE);
+
+        return "OS-" + date + "-" + String.format("%06d", order.getId());
     }
 }
