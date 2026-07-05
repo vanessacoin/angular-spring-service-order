@@ -20,14 +20,29 @@ public class BrowserLauncher {
   @EventListener(ApplicationReadyEvent.class)
   public void openBrowser() {
     try {
-      if (!Desktop.isDesktopSupported()) return;
-
       String port = env.getProperty("local.server.port");
-      if (port == null) return;
 
-      Desktop.getDesktop().browse(new URI("http://localhost:" + port + "/"));
-    } catch (Exception ignored) {
-      // se falhar, só não abre automaticamente
+      if (port == null) {
+        port = env.getProperty("server.port", "8080");
+      }
+
+      String url = "http://localhost:" + port + "/";
+
+      System.out.println("Abrindo navegador em: " + url);
+
+      String os = System.getProperty("os.name").toLowerCase();
+
+      if (os.contains("win")) {
+        new ProcessBuilder("cmd", "/c", "start", "", url).start();
+        return;
+      }
+
+      if (Desktop.isDesktopSupported()) {
+        Desktop.getDesktop().browse(new URI(url));
+      }
+    } catch (Exception e) {
+      System.out.println("Não foi possível abrir o navegador automaticamente.");
+      e.printStackTrace();
     }
   }
 }

@@ -20,7 +20,7 @@ public class HeaderFooterHandler implements IEventHandler {
 
   public HeaderFooterHandler(PdfTheme theme) {
     this.theme = theme;
-    try (InputStream is = new ClassPathResource("static/img/logo.png").getInputStream()) {
+    try (InputStream is = new ClassPathResource("pdf-assets/logo.png").getInputStream()) {
       this.logoImage = new Image(ImageDataFactory.create(is.readAllBytes())).scaleToFit(90, 32);
     } catch (Exception ignored) {}
   }

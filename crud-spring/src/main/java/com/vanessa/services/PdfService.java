@@ -445,10 +445,10 @@ public class PdfService {
 
     private Image loadLogo() {
         try {
-            ClassPathResource resource = new ClassPathResource("static/images/logo.png");
+            ClassPathResource resource = new ClassPathResource("pdf-assets/logo.png");
 
             if (!resource.exists()) {
-                System.out.println("Logo não encontrada em: static/images/logo.png");
+                System.out.println("Logo não encontrada em: pdf-assets/logo.png");
                 return null;
             }
 
