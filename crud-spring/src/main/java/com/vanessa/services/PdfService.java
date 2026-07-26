@@ -274,7 +274,7 @@ public class PdfService {
         } else {
             for (UsedItems item : order.getUsedItems()) {
                 table.addCell(valueCell(item.getDescription(), regular));
-                table.addCell(valueCell(item.getTotalQuantity(), regular));
+                table.addCell(valueCell(quantity(item.getTotalQuantity()), regular));
                 table.addCell(valueCell(money(item.getUnitPrice()), regular));
                 table.addCell(valueCell(money(item.getAmount()), regular));
             }
@@ -441,6 +441,38 @@ public class PdfService {
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance(BRAZIL);
         return formatter.format(amount);
+    }
+
+    private String quantity(Object value) {
+        if (value == null) {
+            return "";
+        }
+
+        BigDecimal quantity;
+
+        if (value instanceof BigDecimal) {
+            quantity = (BigDecimal) value;
+        } else if (value instanceof Number) {
+            quantity = BigDecimal.valueOf(((Number) value).doubleValue());
+        } else {
+            String text = valueOrBlank(value).replace(",", ".");
+
+            if (text.isEmpty()) {
+                return "";
+            }
+
+            try {
+                quantity = new BigDecimal(text);
+            } catch (NumberFormatException e) {
+                return valueOrBlank(value);
+            }
+        }
+
+        NumberFormat formatter = NumberFormat.getNumberInstance(BRAZIL);
+        formatter.setMinimumFractionDigits(0);
+        formatter.setMaximumFractionDigits(3);
+
+        return formatter.format(quantity);
     }
 
     private Image loadLogo() {

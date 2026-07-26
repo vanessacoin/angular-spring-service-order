@@ -15,7 +15,7 @@ public class UsedItems implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private int totalQuantity;
+    private BigDecimal totalQuantity;
     private float unitPrice;
     @Digits(integer = 10, fraction = 2)
     private BigDecimal amount;
@@ -43,11 +43,11 @@ public class UsedItems implements Serializable {
         this.description = description;
     }
 
-    public int getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -75,13 +75,16 @@ public class UsedItems implements Serializable {
         this.serviceOrder = order;
     }
 
-    public BigDecimal totalAmount(int totalQuantity, float unitPrice) {
-        BigDecimal quantity = BigDecimal.valueOf(totalQuantity);
-        BigDecimal price = BigDecimal.valueOf(unitPrice);
-
-        this.amount = quantity.multiply(price).setScale(2, RoundingMode.HALF_UP);
-        return amount;
+    public BigDecimal totalAmount(BigDecimal totalQuantity, float unitPrice) {
+    if (totalQuantity == null) {
+        totalQuantity = BigDecimal.ZERO;
     }
+
+    BigDecimal price = BigDecimal.valueOf(unitPrice);
+
+    this.amount = totalQuantity.multiply(price).setScale(2, RoundingMode.HALF_UP);
+    return amount;
+}
 
     public void setOrder(ServiceOrder order) {
         this.serviceOrder = order;

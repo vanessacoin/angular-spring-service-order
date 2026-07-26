@@ -15,7 +15,7 @@
 
         <ng-container matColumnDef="total_quantity">
           <th mat-header-cell *matHeaderCellDef>Quantidade Total</th>
-          <td mat-cell *matCellDef="let item">{{ item.totalQuantity }}</td>
+          <td mat-cell *matCellDef="let item">{{ item.totalQuantity | currency:'BRL':'symbol':'1.2-2':'pt-BR' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="unit_price">
@@ -36,20 +36,17 @@
           </th>
 
           <td mat-cell *matCellDef="let item" class="action-column">
-            <button mat-icon-button color="primary" aria-label="Editar Item"
-              (click)="onEditUsedItems(item)">
+            <button mat-icon-button color="primary" aria-label="Editar Item" (click)="onEditUsedItems(item)">
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button color="warn" aria-label="Deletar Item"
-              (click)="onDeleteUsedItems(item.id)">
+            <button mat-icon-button color="warn" aria-label="Deletar Item" (click)="onDeleteUsedItems(item.id)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
 
-        <tr mat-header-row mat-header-row
-          *matHeaderRowDef="displayedColumnsUsedItems"></tr>
+        <tr mat-header-row mat-header-row *matHeaderRowDef="displayedColumnsUsedItems"></tr>
         <tr mat-row mat-row *matRowDef="let row; columns: displayedColumnsUsedItems;"></tr>
 
       </table>

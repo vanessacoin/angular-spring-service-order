@@ -86,8 +86,8 @@ export class UsedItemsComponent implements OnInit {
 
   onEditUsedItems(item: UsedItem) {
     const description = prompt('Editar Descrição do Item:', item.description);
-    const totalQuantityString = prompt('Editar Quantidade Total:', item.totalQuantity.toString());
-    const unitPriceString = prompt('Editar Preço Unitário:', item.unitPrice.toString());
+    const totalQuantityString = prompt('Editar Quantidade Total:', item.totalQuantity.toString().replace('.', ','));
+    const unitPriceString = prompt('Editar Preço Unitário:', item.unitPrice.toString().replace('.', ','));
 
     const totalQuantity = totalQuantityString ? parseFloat(totalQuantityString.replace(',', '.')) : item.totalQuantity;
     const unitPrice = unitPriceString ? parseFloat(unitPriceString.replace(',', '.')) : item.unitPrice;
@@ -107,7 +107,7 @@ export class UsedItemsComponent implements OnInit {
   }
 
   onDeleteUsedItems(id: number) {
-    if (confirm('Tem certeza que deseja excluir o item ${id}?')) {
+    if (confirm(`Tem certeza que deseja excluir o item ${id}?`)) {
       this.usedItemsService.deleteUsedItem(id).subscribe({
         next: () => {
           this.usedItems = this.usedItems.filter(item => item.id !== id);
@@ -141,4 +141,12 @@ export class UsedItemsComponent implements OnInit {
     const totalAmount = this.usedItems.reduce((acc, item) => acc + item.amount, 0);
     this.totalAmountChange.emit(Number(totalAmount.toFixed(2)));
   }
+
+  protected formatQuantity(value: number): string {
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3
+  }).format(value);
 }
+}
+

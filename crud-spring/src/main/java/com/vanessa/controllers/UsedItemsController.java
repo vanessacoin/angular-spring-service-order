@@ -5,7 +5,7 @@ import com.vanessa.services.UsedItemsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
-
+import java.math.RoundingMode;
 
 @RestController
 @RequestMapping("/api/used-items")
@@ -18,10 +18,14 @@ public class UsedItemsController {
     }
 
     @PostMapping("/calculateAmount")
-    public BigDecimal calculateAmount(int totalQuantity, double unitPrice) {
-        return BigDecimal.valueOf(totalQuantity).multiply(BigDecimal.valueOf(unitPrice));
+    public BigDecimal calculateAmount(
+            @RequestParam BigDecimal totalQuantity,
+            @RequestParam double unitPrice) {
+        return totalQuantity
+                .multiply(BigDecimal.valueOf(unitPrice))
+                .setScale(2, RoundingMode.HALF_UP);
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsedItem(@PathVariable Long id) {
         usedItemsService.deleteById(id);
